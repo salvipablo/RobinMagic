@@ -1,3 +1,6 @@
-T#001 - Initial commit
-T#002 - The map was implemented, now it is an array of items
-T#003 - Interactive with items - Being able to take objects and with the space key be able to interact, in the case of a tree being able to cut it down.
+T#001 - Initial commit - OK
+T#002 - Initial structure of the array - 
+
+
+T#001 - Basic properties were configured for the main form.
+T#002 - The initial structure of the array is defined, which will contain the map. The idea is that each sector is made up of a defining object, material and color. And another object that defines what material is in that sector.
