@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobinMagic", "RobinMagic\RobinMagic.csproj", "{32C26F13-5D46-4968-979E-4253407EB3A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32C26F13-5D46-4968-979E-4253407EB3A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C26F13-5D46-4968-979E-4253407EB3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32C26F13-5D46-4968-979E-4253407EB3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32C26F13-5D46-4968-979E-4253407EB3A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D7663AC-76E7-47B2-B293-495A17589517}
+	EndGlobalSection
+EndGlobal

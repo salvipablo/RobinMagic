@@ -1,0 +1,3 @@
+T#001 - Initial commit
+T#002 - The map was implemented, now it is an array of items
+T#003 - Interactive with items - Being able to take objects and with the space key be able to interact, in the case of a tree being able to cut it down.
