@@ -1,7 +1,0 @@
-1 - Land - ' '
-2 - Cement - ' '
-3 - Cobble - 'C'
-4 - Door - 'D'
-5 - Ocean - ' '
-6 - Grass - ' '
-7 - Tree - 'T'

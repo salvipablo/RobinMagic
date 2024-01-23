@@ -35,7 +35,7 @@
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       BackColor = Color.FromArgb(0, 11, 30);
-      ClientSize = new Size(984, 561);
+      ClientSize = new Size(1084, 661);
       Location = new Point(500, 250);
       Name = "FrmMain";
       Text = "Robin Magic";

@@ -1,0 +1,12 @@
+Tiles:
+	1 - Land - ' '
+	2 - Cement - ' '
+	3 - Ocean - ' '
+	4 - Grass - ' '
+
+Items:
+	1 - Empty - ' '
+	2 - Cobble - 'C'
+	3 - Door - 'D'
+	4 - Tree - 'T'
+	5 - Wood - "W"

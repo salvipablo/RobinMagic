@@ -2,8 +2,8 @@
 {
   internal class Sector
   {
-    private Tile Tile;
-    private Item Item;
+    public Tile Tile { get; set; }
+    public Item Item { get; set; }
 
     public Sector(Tile tile, Item item)
     {

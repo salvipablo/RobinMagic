@@ -2,9 +2,9 @@
 {
   internal class Tile
   {
-    private int Id;
-    private string Material;
-    private Color Color;
+    public int Id {  get; set; }
+    public string Material { get; set; }
+    public Color Color { get; set; }
 
     public Tile(int id, string material, Color color)
     {
