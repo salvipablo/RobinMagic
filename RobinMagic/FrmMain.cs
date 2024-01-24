@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Numerics;
 using System.Windows.Forms;
 
@@ -10,14 +11,15 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
+    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, new Point(1, 1));
 
     public FrmMain()
     {
       InitializeComponent();
-      init();
+      Init();
     }
 
-    public void init()
+    public void Init()
     {
       Label label;
       int posX = initialPositionScreenX;
@@ -56,9 +58,37 @@ namespace RobinMagic
       {
         for (int x = 0; x < GameMap.Sectors.GetLongLength(0); x++)
         {
-          sectors[x, y].Text = GameMap.Sectors[x, y].Item.Symbol.ToString();
           sectors[x, y].BackColor = GameMap.Sectors[x, y].Tile.Color;
+          sectors[x, y].Text = GameMap.Sectors[x, y].Item.Symbol.ToString();
         }
+      }
+    }
+
+    private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up || e.KeyCode == Keys.Right || e.KeyCode == Keys.Left) this.PlayerMove(e);
+    }
+
+    private void PlayerMove(KeyEventArgs keyPressed)
+    {
+      Point playerPosAfterMov = player!.Location;
+
+      if (keyPressed.KeyCode == Keys.Down && player.Location.Y < 17) playerPosAfterMov.Y += 1;
+      if (keyPressed.KeyCode == Keys.Up && player.Location.Y > 0) playerPosAfterMov.Y -= 1;
+      if (keyPressed.KeyCode == Keys.Right && player.Location.X < 17) playerPosAfterMov.X += 1;
+      if (keyPressed.KeyCode == Keys.Left && player.Location.X > 0) playerPosAfterMov.X -= 1;
+
+      bool canIMove = Player.WasThereACollision(playerPosAfterMov);
+
+      if (!canIMove)
+      {
+        Item empty = new(0, "Empty", ' ', 0, new Point(player.Location.X, player.Location.Y));
+        GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
+        sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
+
+        player.Location = playerPosAfterMov;
+        GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
+        sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
       }
     }
   }

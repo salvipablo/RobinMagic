@@ -1,10 +1,10 @@
 Tickets.
 T#001 - Initial commit - OK.
 T#002 - Initial structure of the array - OK.
-T#003 - Player - 
+T#003 - Player - OK.
 
 Refactorings.
-R#001 - Place Sector.
+R#001 - Place Sector - OK.
 
 T#001 - Basic properties were configured for the main form.
 T#002 - The initial structure of the array is defined, which will contain the map. The idea is that each sector is made up of a defining object, material and color. And another object that defines what material is in that sector. It was implemented to show the labels, representing each tile, according to item and tile.

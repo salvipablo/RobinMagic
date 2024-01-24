@@ -39,6 +39,7 @@
       Location = new Point(500, 250);
       Name = "FrmMain";
       Text = "Robin Magic";
+      KeyDown += FrmMain_KeyDown;
       ResumeLayout(false);
     }
 
