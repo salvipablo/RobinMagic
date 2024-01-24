@@ -1,11 +1,12 @@
 Tiles:
-	1 - Land - ' '
-	2 - Cement - ' '
-	3 - Ocean - ' '
-	4 - Grass - ' '
+	0 - Land - ' '
+	1 - Cement - ' '
+	2 - Ocean - ' '
+	3 - Grass - ' '
 
 Items:
-	1 - Empty - ' '
+	0 - Empty - ' '
+	1 - Player - '1'
 	2 - Cobble - 'C'
 	3 - Door - 'D'
 	4 - Tree - 'T'

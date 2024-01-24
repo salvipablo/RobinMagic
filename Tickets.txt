@@ -1,6 +1,13 @@
+Tickets.
 T#001 - Initial commit - OK.
 T#002 - Initial structure of the array - OK.
+T#003 - Player - 
 
+Refactorings.
+R#001 - Place Sector.
 
 T#001 - Basic properties were configured for the main form.
 T#002 - The initial structure of the array is defined, which will contain the map. The idea is that each sector is made up of a defining object, material and color. And another object that defines what material is in that sector. It was implemented to show the labels, representing each tile, according to item and tile.
+T#003 - Create the character entity, and make it part of the map. Get it to move and catch collisions.
+
+R#001 - A method that inserts a sector was implemented, and both the tile and the item are returned by a creator method
