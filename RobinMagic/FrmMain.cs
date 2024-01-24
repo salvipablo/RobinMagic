@@ -1,7 +1,3 @@
-using System.Drawing;
-using System.Numerics;
-using System.Windows.Forms;
-
 namespace RobinMagic
 {
   public partial class FrmMain : Form
@@ -90,6 +86,14 @@ namespace RobinMagic
         GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
         sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
       }
+
+      ShowInfoScreen();
+    }
+
+    private void ShowInfoScreen()
+    {
+      lblPosition.Text = $"Player Position: ({this.player!.Location.X}, {this.player.Location.Y})";
+      lblItem.Text = $"Item en frente: {Player.GetItem().Name}";
     }
   }
 }

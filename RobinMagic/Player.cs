@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RobinMagic
+﻿namespace RobinMagic
 {
   internal class Player : Item
   {
     private static Player? _player;
+    private static Item? itemInFront;
 
     public Player(int id, string name, char symbol, int itemToObtain, Point point) : base(id, name, symbol, itemToObtain, point)
     {
@@ -22,7 +17,12 @@ namespace RobinMagic
 
     public static bool WasThereACollision(Point newPlayerPos)
     {
+      itemInFront = GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Item;
       return GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Item.Symbol != ' ' || GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Tile.Material == "Ocean"; 
     }
+
+    #pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
+    public static Item GetItem() => itemInFront;
+
   }
 }
