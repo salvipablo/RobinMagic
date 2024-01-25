@@ -1,10 +1,10 @@
-﻿namespace RobinMagic
+﻿using RobinMagic.Items;
+
+namespace RobinMagic
 {
   internal static class GameMap
   {
     public static Sector[,] Sectors = new Sector[18, 18];
-    public static Tile? tile;
-    public static Item? item;
 
     public enum Tiles
     {
@@ -225,23 +225,22 @@
 
     public static Item ReturnItem(int id, Point point)
     {
-      if ( id == 1 ) return new Item(id, "Player", '1', 0, new Point(point.X, point.Y));
-      if ( id == 2 ) return new Item(id, "Cobble", 'C', 0, new Point(point.X, point.Y));
-      if ( id == 3 ) return new Item(id, "Door", 'D', 0, new Point(point.X, point.Y));
-      if ( id == 4 ) return new Item(id, "Tree", 'T', 4, new Point(point.X, point.Y));
-      if ( id == 5 ) return new Item(id, "Wood", 'W', 0, new Point(point.X, point.Y));
-      if ( id == 6 ) return new Item(id, "Key", 'K', 0, new Point(point.X, point.Y));
-      return new Item(id, "Empty", ' ', 0, new Point(point.X, point.Y));
+      Item itemToReturn = new(id, "Empty", ' ', 0, new Point(point.X, point.Y));
+
+      if (id == 1) return new Item(id, "Player", '1', 0, new Point(point.X, point.Y));
+      if (id == 2) return new Item(id, "Cobble", 'C', 0, new Point(point.X, point.Y));
+      if (id == 3) return new Item(id, "Door", 'D', 0, new Point(point.X, point.Y));
+      if (id == 4) itemToReturn = new Tree(id, "Tree", 'T', 4, new Point(point.X, point.Y), 6);
+      if (id == 5) return new Item(id, "Wood", 'W', 0, new Point(point.X, point.Y));
+      if (id == 6) return new Item(id, "Key", 'K', 0, new Point(point.X, point.Y));
+      
+      return itemToReturn;
     }
 
     public static void PlaceSector(int x, int y, Tiles tileToPlace, Items itemToPlace, Point pointItem)
     {
-      int idTile = (int)tileToPlace;
-      tile = ReturnTile(idTile);
-      
-      int idItem = (int)itemToPlace;
-      item = ReturnItem(idItem, pointItem);
-
+      Tile tile = ReturnTile((int)tileToPlace);
+      Item item = ReturnItem((int)itemToPlace, pointItem);
       Sector sector = new(tile, item);
       Sectors[x, y] = sector;
     }

@@ -1,3 +1,7 @@
+using RobinMagic.Items;
+using System.Drawing;
+using System.Runtime.CompilerServices;
+
 namespace RobinMagic
 {
   public partial class FrmMain : Form
@@ -57,7 +61,6 @@ namespace RobinMagic
         {
           sectors[x, y].BackColor = GameMap.Sectors[x, y].Tile.Color;
           sectors[x, y].Text = GameMap.Sectors[x, y].Item.Symbol.ToString();
-          //if (x == key.Location.X && y == key.Location.Y && !key.KeyFound) sectors[x, y].Text = " ";
         }
       }
     }
@@ -66,6 +69,26 @@ namespace RobinMagic
     {
       if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up || e.KeyCode == Keys.Right || e.KeyCode == Keys.Left) this.PlayerMove(e);
       if (e.KeyCode == Keys.I) this.InvestigateArea();
+      if (e.KeyCode == Keys.Space) Hit();
+    }
+
+    private void Hit()
+    {
+      Tree? treeFront = null;
+
+      if (GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.Name == "Tree")
+      {
+        treeFront = (Tree)GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item;
+      }
+
+      treeFront!.SetLife(0.5f);
+
+      if (treeFront.GetLife() == 0)
+      {
+        GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item = 
+                      new Item(0, "Empty", ' ', 0, new Point(Player.GetItem().Location.X, Player.GetItem().Location.Y));
+        this.ShowScreen();
+      }
     }
 
     private void InvestigateArea()
@@ -75,7 +98,7 @@ namespace RobinMagic
       if (player!.Location.X == key.Location.X && player.Location.Y + 1 == key.Location.Y) key.KeyFound = true;
       if (player!.Location.X == key.Location.X && player.Location.Y - 1 == key.Location.Y) key.KeyFound = true;
       
-      if ( key.KeyFound == true )
+      if (key.KeyFound == true)
       {
         Player.SetIHaveKey();
         GameMap.PlaceKey(key);

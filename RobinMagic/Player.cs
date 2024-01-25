@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace RobinMagic
+﻿namespace RobinMagic
 {
   internal class Player : Item
   {

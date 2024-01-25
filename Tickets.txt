@@ -1,12 +1,10 @@
 Tickets.
-T#001 - Initial commit 							- OK.
-T#002 - Initial structure of the array 			- OK.
-T#003 - Player 									- OK.
-T#004 - Information 							- OK.
-T#005 - Key 									- OK.
-
-Refactorings.
-R#001 - Place Sector - OK.
+T#001 - Initial commit. 							- OK.
+T#002 - Initial structure of the array. 			- OK.
+T#003 - Player. 									- OK.
+T#004 - Information. 								- OK.
+T#005 - Key. 										- OK.
+T#006 - Resource collection.						- 
 
 
 ** Ticket description **
@@ -15,6 +13,12 @@ T#002 - The initial structure of the array is defined, which will contain the ma
 T#003 - Create the character entity, and make it part of the map. Get it to move and catch collisions.
 T#004 - Show information on the screen about the position of the player and the item in front of him when the collision occurs.
 T#005 - All the mechanics of the key were incorporated, being able to investigate to find it and win the game.
+T#006 - The ability to cut down trees is added, and once they are cut down they release wood.
+
+
+Refactorings.
+R#001 - Place Sector - OK.
+
 
 ** Description of refactors **
 R#001 - A method that inserts a sector was implemented, and both the tile and the item are returned by a creator method
