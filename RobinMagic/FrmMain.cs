@@ -8,6 +8,7 @@ namespace RobinMagic
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
     private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, new Point(1, 1));
+    private readonly Key key = Key.GetKey(6, "Key", 'K', 0, new Point(15, 9), false);
 
     public FrmMain()
     {
@@ -56,6 +57,7 @@ namespace RobinMagic
         {
           sectors[x, y].BackColor = GameMap.Sectors[x, y].Tile.Color;
           sectors[x, y].Text = GameMap.Sectors[x, y].Item.Symbol.ToString();
+          //if (x == key.Location.X && y == key.Location.Y && !key.KeyFound) sectors[x, y].Text = " ";
         }
       }
     }
@@ -63,6 +65,22 @@ namespace RobinMagic
     private void FrmMain_KeyDown(object sender, KeyEventArgs e)
     {
       if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up || e.KeyCode == Keys.Right || e.KeyCode == Keys.Left) this.PlayerMove(e);
+      if (e.KeyCode == Keys.I) this.InvestigateArea();
+    }
+
+    private void InvestigateArea()
+    {
+      if (player!.Location.X + 1 == key.Location.X && player.Location.Y == key.Location.Y) key.KeyFound = true;
+      if (player!.Location.X - 1 == key.Location.X && player.Location.Y == key.Location.Y) key.KeyFound = true;
+      if (player!.Location.X == key.Location.X && player.Location.Y + 1 == key.Location.Y) key.KeyFound = true;
+      if (player!.Location.X == key.Location.X && player.Location.Y - 1 == key.Location.Y) key.KeyFound = true;
+      
+      if ( key.KeyFound == true )
+      {
+        Player.SetIHaveKey();
+        GameMap.PlaceKey(key);
+        this.ShowScreen();
+      }
     }
 
     private void PlayerMove(KeyEventArgs keyPressed)
@@ -94,6 +112,11 @@ namespace RobinMagic
     {
       lblPosition.Text = $"Player Position: ({this.player!.Location.X}, {this.player.Location.Y})";
       lblItem.Text = $"Item en frente: {Player.GetItem().Name}";
+
+      if (player.Location.X == 4 && player.Location.Y == 5)
+      {
+        lblWin.Visible = true;
+      }
     }
   }
 }

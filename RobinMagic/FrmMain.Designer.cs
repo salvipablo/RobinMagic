@@ -30,6 +30,7 @@
     {
       lblPosition = new Label();
       lblItem = new Label();
+      lblWin = new Label();
       SuspendLayout();
       // 
       // lblPosition
@@ -54,12 +55,25 @@
       lblItem.Text = "Item en frente: ";
       lblItem.TextAlign = ContentAlignment.MiddleLeft;
       // 
+      // lblWin
+      // 
+      lblWin.BackColor = SystemColors.ActiveCaption;
+      lblWin.ForeColor = SystemColors.ActiveCaptionText;
+      lblWin.Location = new Point(600, 90);
+      lblWin.Name = "lblWin";
+      lblWin.Size = new Size(200, 30);
+      lblWin.TabIndex = 2;
+      lblWin.Text = "Has ganado la partida, Felicitaciones";
+      lblWin.TextAlign = ContentAlignment.MiddleLeft;
+      lblWin.Visible = false;
+      // 
       // FrmMain
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       BackColor = Color.FromArgb(0, 11, 30);
       ClientSize = new Size(1084, 661);
+      Controls.Add(lblWin);
       Controls.Add(lblItem);
       Controls.Add(lblPosition);
       Location = new Point(500, 250);
@@ -73,5 +87,6 @@
 
     private Label lblPosition;
     private Label lblItem;
+    private Label lblWin;
   }
 }

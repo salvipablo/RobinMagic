@@ -21,7 +21,8 @@
       Cobble,
       Door,
       Tree,
-      Wood
+      Wood,
+      Key
     }
 
     public static void FillMap()
@@ -32,7 +33,7 @@
         {
           PlaceSector(x, y, Tiles.Land, Items.Empty, new Point(0, 0));
 
-          // Land and Trees
+          // Land and Trees.
           if (x == 3 && y == 11) PlaceSector(x, y, Tiles.Land, Items.Tree, new Point(x, y));
           if (x == 5 && y == 12) PlaceSector(x, y, Tiles.Land, Items.Tree, new Point(x, y));
           if (x == 6 && y == 14) PlaceSector(x, y, Tiles.Land, Items.Tree, new Point(x, y));
@@ -43,13 +44,13 @@
           if (x == 15 && y == 4) PlaceSector(x, y, Tiles.Land, Items.Tree, new Point(x, y));
           if (x == 17 && y == 6) PlaceSector(x, y, Tiles.Land, Items.Tree, new Point(x, y));
 
-          // Grass and Trees
+          // Grass and Trees.
           if (x == 14 && y == 8) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
           if (x == 15 && y == 11) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
           if (x == 17 && y == 8) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
           if (x == 17 && y == 12) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
 
-          // Cement
+          // Cement.
           if (x == 1 && y == 1) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
           if (x == 1 && y == 2) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
           if (x == 1 && y == 3) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
@@ -81,7 +82,7 @@
           if (x == 17 && y == 13) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
           if (x == 2 && y == 5) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
 
-          // Ocean
+          // Ocean.
           if (x == 0 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
           if (x == 1 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
           if (x == 2 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
@@ -119,7 +120,7 @@
           if (x == 16 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
           if (x == 17 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
 
-          // Grass
+          // Grass.
           if (x == 13 && y == 7) PlaceSector(x, y, Tiles.Grass, Items.Empty, new Point(x, y));
           if (x == 13 && y == 8) PlaceSector(x, y, Tiles.Grass, Items.Empty, new Point(x, y));
           if (x == 13 && y == 9) PlaceSector(x, y, Tiles.Grass, Items.Empty, new Point(x, y));
@@ -147,7 +148,7 @@
           if (x == 17 && y == 10) PlaceSector(x, y, Tiles.Grass, Items.Empty, new Point(x, y));
           if (x == 17 && y == 11) PlaceSector(x, y, Tiles.Grass, Items.Empty, new Point(x, y));
 
-          // Castle
+          // Castle.
           if (x == 3 && y == 1) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
           if (x == 3 && y == 2) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
           if (x == 3 && y == 3) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
@@ -203,10 +204,15 @@
           if (x == 8 && y == 8) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
           if (x == 8 && y == 9) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
 
-          // Player
+          // Player.
           if (x == 1 && y == 1) PlaceSector(x, y, Tiles.Cement, Items.Player, new Point(x, y));
         }
       }
+    }
+
+    public static void PlaceKey(Key key)
+    {
+      PlaceSector(key.Location.X, key.Location.Y, Tiles.Grass, Items.Key, new Point(key.Location.X, key.Location.Y));
     }
 
     public static Tile ReturnTile(int id)
@@ -224,6 +230,7 @@
       if ( id == 3 ) return new Item(id, "Door", 'D', 0, new Point(point.X, point.Y));
       if ( id == 4 ) return new Item(id, "Tree", 'T', 4, new Point(point.X, point.Y));
       if ( id == 5 ) return new Item(id, "Wood", 'W', 0, new Point(point.X, point.Y));
+      if ( id == 6 ) return new Item(id, "Key", 'K', 0, new Point(point.X, point.Y));
       return new Item(id, "Empty", ' ', 0, new Point(point.X, point.Y));
     }
 
