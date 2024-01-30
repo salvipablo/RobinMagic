@@ -11,14 +11,14 @@ namespace RobinMagic
     private static Key? _key;
     public bool KeyFound { get; set; }
 
-    private Key(int id, string name, char symbol, int itemToObtain, Point point, bool keyFound) : base(id, name, symbol, itemToObtain, point)
+    private Key(int id, string name, char symbol, int itemToObtain, Point point, bool keyFound, float life) : base(id, name, symbol, itemToObtain, point, life)
     {
       KeyFound = keyFound;
     }
 
-    public static Key GetKey(int id, string name, char symbol, int itemToObtain, Point point, bool keyFound)
+    public static Key GetKey(int id, string name, char symbol, int itemToObtain, Point point, bool keyFound, float life)
     {
-      _key ??= new Key(id, name, symbol, itemToObtain, point, keyFound);
+      _key ??= new Key(id, name, symbol, itemToObtain, point, keyFound, life);
       return _key;
     }
   }

@@ -6,11 +6,11 @@
     private static Item? itemInFront;
     private static bool IHaveKey = false;
 
-    private Player(int id, string name, char symbol, int itemToObtain, Point point) : base(id, name, symbol, itemToObtain, point) { }
+    private Player(int id, string name, char symbol, int itemToObtain, Point point, float life) : base(id, name, symbol, itemToObtain, point, life) { }
 
-    public static Player GetPlayer(int id, string name, char symbol, int itemToObtain, Point point)
+    public static Player GetPlayer(int id, string name, char symbol, int itemToObtain, Point point, float life)
     {
-      _player ??= new Player(id, name, symbol, itemToObtain, point);
+      _player ??= new Player(id, name, symbol, itemToObtain, point, life);
       return _player;
     }
 

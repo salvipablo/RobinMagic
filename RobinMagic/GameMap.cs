@@ -22,7 +22,9 @@ namespace RobinMagic
       Door,
       Tree,
       Wood,
-      Key
+      Key,
+      RockFloor,
+      Stone
     }
 
     public static void FillMap()
@@ -205,6 +207,12 @@ namespace RobinMagic
           if (x == 8 && y == 9) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
 
           // Player.
+          if (x == 16 && y == 14) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+          if (x == 17 && y == 14) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+          if (x == 16 && y == 15) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+          if (x == 17 && y == 15) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+
+          // Player.
           if (x == 1 && y == 1) PlaceSector(x, y, Tiles.Cement, Items.Player, new Point(x, y));
         }
       }
@@ -225,15 +233,17 @@ namespace RobinMagic
 
     public static Item ReturnItem(int id, Point point)
     {
-      Item itemToReturn = new(id, "Empty", ' ', 0, new Point(point.X, point.Y));
+      Item itemToReturn = new(id, "Empty", ' ', 0, new Point(point.X, point.Y), 0);
 
-      if (id == 1) return new Item(id, "Player", '1', 0, new Point(point.X, point.Y));
-      if (id == 2) return new Item(id, "Cobble", 'C', 0, new Point(point.X, point.Y));
-      if (id == 3) return new Item(id, "Door", 'D', 0, new Point(point.X, point.Y));
-      if (id == 4) itemToReturn = new Tree(id, "Tree", 'T', 4, new Point(point.X, point.Y), 6);
-      if (id == 5) return new Item(id, "Wood", 'W', 0, new Point(point.X, point.Y));
-      if (id == 6) return new Item(id, "Key", 'K', 0, new Point(point.X, point.Y));
-      
+      if (id == 1) itemToReturn = new(id, "Player", '1', 0, new Point(point.X, point.Y), 100);
+      if (id == 2) itemToReturn = new(id, "Cobble", 'C', 0, new Point(point.X, point.Y), 999);
+      if (id == 3) itemToReturn = new(id, "Door", 'D', 0, new Point(point.X, point.Y), 999);
+      if (id == 4) itemToReturn = new(id, "Tree", 'T', 5, new Point(point.X, point.Y), 6);
+      if (id == 5) itemToReturn = new(id, "Wood", 'W', 0, new Point(point.X, point.Y), 999);
+      if (id == 6) itemToReturn = new(id, "Key", 'K', 0, new Point(point.X, point.Y), 999);
+      if (id == 7) itemToReturn = new(id, "RockFloor", 'R', 8, new Point(point.X, point.Y), 15);
+      if (id == 8) itemToReturn = new(id, "Stone", 'S', 0, new Point(point.X, point.Y), 999);
+
       return itemToReturn;
     }
 

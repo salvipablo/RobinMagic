@@ -1,19 +1,11 @@
 ﻿
+
 namespace RobinMagic.Items
 {
   internal class Tree : Item
   {
-    private float life = 6;
-    public Tree( int id, string name, char symbol, int itemToObtain, Point point, float life ) : base(id, name, symbol, itemToObtain, point)
-    {
-      this.life = life;
-    }
+    public Tree( int id, string name, char symbol, int itemToObtain, Point point, float life ) : base(id, name, symbol, itemToObtain, point, life) { }
 
-    public float GetLife() { return life; }
-
-    public void SetLife(float lifeToTake )
-    {
-      this.life -= lifeToTake;
-    }
+    // Aqui se podrian ver cosas especificas como el tipo de arbol, que items se obtienen de el. Que se puede fabricar, etc
   }
 }

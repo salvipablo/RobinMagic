@@ -11,8 +11,8 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
-    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, new Point(1, 1));
-    private readonly Key key = Key.GetKey(6, "Key", 'K', 0, new Point(15, 9), false);
+    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, new Point(1, 1), 999);
+    private readonly Key key = Key.GetKey(6, "Key", 'K', 0, new Point(15, 9), false, 999);
 
     public FrmMain()
     {
@@ -74,29 +74,35 @@ namespace RobinMagic
 
     private void Hit()
     {
-      Tree? treeFront = null;
+      Item? objectFront = null;
 
-      if (GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.Name == "Tree")
+      if (GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.Symbol != ' ')
       {
-        treeFront = (Tree)GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item;
+        objectFront = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item;
       }
 
-      treeFront!.SetLife(0.5f);
-
-      if (treeFront.GetLife() == 0)
+      if (objectFront != null)
       {
-        GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item = 
-                      new Item(0, "Empty", ' ', 0, new Point(Player.GetItem().Location.X, Player.GetItem().Location.Y));
-        this.ShowScreen();
+        objectFront!.LoseLife(0.5f);
+
+        if (objectFront!.GetLife() == 0)
+        {
+          int idItemToObtain = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.ItemToObtain;
+
+          GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item =
+                          GameMap.ReturnItem(idItemToObtain, new Point(Player.GetItem().Location.X, Player.GetItem().Location.Y));
+
+          this.ShowScreen();
+        }
       }
     }
 
     private void InvestigateArea()
     {
       if (player!.Location.X + 1 == key.Location.X && player.Location.Y == key.Location.Y) key.KeyFound = true;
-      if (player!.Location.X - 1 == key.Location.X && player.Location.Y == key.Location.Y) key.KeyFound = true;
-      if (player!.Location.X == key.Location.X && player.Location.Y + 1 == key.Location.Y) key.KeyFound = true;
-      if (player!.Location.X == key.Location.X && player.Location.Y - 1 == key.Location.Y) key.KeyFound = true;
+      if (player.Location.X - 1 == key.Location.X && player.Location.Y == key.Location.Y) key.KeyFound = true;
+      if (player.Location.X == key.Location.X && player.Location.Y + 1 == key.Location.Y) key.KeyFound = true;
+      if (player.Location.X == key.Location.X && player.Location.Y - 1 == key.Location.Y) key.KeyFound = true;
       
       if (key.KeyFound == true)
       {
@@ -119,7 +125,7 @@ namespace RobinMagic
 
       if (!canIMove)
       {
-        Item empty = new(0, "Empty", ' ', 0, new Point(player.Location.X, player.Location.Y));
+        Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y));
         GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
         sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
 
