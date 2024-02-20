@@ -1,6 +1,5 @@
-using RobinMagic.Items;
-using System.Drawing;
-using System.Runtime.CompilerServices;
+using Microsoft.VisualBasic;
+using RobinMagic.Inventorys;
 
 namespace RobinMagic
 {
@@ -11,8 +10,8 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
-    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, new Point(1, 1), 999);
-    private readonly Key key = Key.GetKey(6, "Key", 'K', 0, new Point(15, 9), false, 999);
+    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(1, 1), 1,999);
+    private readonly Key key = Key.GetKey(6, "Key", 'K', 0, 1, new Point(15, 9), false, 1, 999);
 
     public FrmMain()
     {
@@ -69,7 +68,16 @@ namespace RobinMagic
     {
       if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up || e.KeyCode == Keys.Right || e.KeyCode == Keys.Left) this.PlayerMove(e);
       if (e.KeyCode == Keys.I) this.InvestigateArea();
-      if (e.KeyCode == Keys.Space) Hit();
+      if (e.KeyCode == Keys.Space) this.Hit();
+      if (e.KeyCode == Keys.I) ShowInventory();
+
+      // TODO: Eliminar esta linea es solo para la simulacion del inventario.
+      if (e.KeyCode == Keys.S) StoreInInventory();
+    }
+
+    private static void ShowInventory()
+    {
+      MessageBox.Show($"Cantidad de slots en inventario: {Inventory.Items.Count}");
     }
 
     private void Hit()
@@ -89,8 +97,10 @@ namespace RobinMagic
         {
           int idItemToObtain = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.ItemToObtain;
 
+          int QuantityToStore = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.AmountToObtain;
+
           GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item =
-                          GameMap.ReturnItem(idItemToObtain, new Point(Player.GetItem().Location.X, Player.GetItem().Location.Y));
+                          GameMap.ReturnItem(idItemToObtain, new Point(Player.GetItem().Location.X, Player.GetItem().Location.Y), QuantityToStore);
 
           this.ShowScreen();
         }
@@ -125,11 +135,20 @@ namespace RobinMagic
 
       if (!canIMove)
       {
-        Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y));
+        Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
         GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
         sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
 
         player.Location = playerPosAfterMov;
+
+        // ACA VERIFICO SI LA POSICION DEL PLAYER ES IGUAL A LA DE UN ITEM QUE SE PUEDE JUNTAR, LLAMO A ALMACENAR
+        if(GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Stone" || 
+                                            GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Wood")
+        {
+          Inventory.StoreItemInInventory(GameMap.Sectors[player.Location.X, player.Location.Y].Item.Id, 
+                                                    GameMap.Sectors[player.Location.X, player.Location.Y].Item.Amount);
+        }
+
         GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
         sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
       }
@@ -146,6 +165,21 @@ namespace RobinMagic
       {
         lblWin.Visible = true;
       }
+    }
+
+    // TODO: Eliminar este metodo es solo para simular el almacenamiento en inventario
+    private void StoreInInventory()
+    {
+      
+      int idMaterial = int.Parse(Interaction.InputBox("Ingrese ID de Material a almacenar:", "System"));
+
+      int cantidad = int.Parse(Interaction.InputBox("Ingrese cantidad de Material a almacenar:", "System"));
+      
+      // Madera.
+      Inventory.StoreItemInInventory(idMaterial, cantidad, 0);
+
+      // Piedra.
+      //Inventory.StoreItemInInventory(8, 5, 0);
     }
   }
 }

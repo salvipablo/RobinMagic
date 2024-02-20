@@ -4,7 +4,8 @@ T#002 - Initial structure of the array. 			- OK.
 T#003 - Player. 									- OK.
 T#004 - Information. 								- OK.
 T#005 - Key. 										- OK.
-T#006 - Resource collection.						- 
+T#006 - Resource collection.						- OK.
+T#007 - Inventory.									- 
 
 
 ** Ticket description **
@@ -14,7 +15,7 @@ T#003 - Create the character entity, and make it part of the map. Get it to move
 T#004 - Show information on the screen about the position of the player and the item in front of him when the collision occurs.
 T#005 - All the mechanics of the key were incorporated, being able to investigate to find it and win the game.
 T#006 - The ability to cut down trees and break rocks is added, and once cut down they release the corresponding item.
-
+T#007 - Inventory was added, with only the ability to store items.
 
 Refactorings.
 R#001 - Place Sector - OK.

@@ -231,18 +231,18 @@ namespace RobinMagic
       return new Tile(id, "Land", Color.FromArgb(120, 67, 21));
     }
 
-    public static Item ReturnItem(int id, Point point)
+    public static Item ReturnItem(int id, Point point, int amount)
     {
-      Item itemToReturn = new(id, "Empty", ' ', 0, new Point(point.X, point.Y), 0);
+      Item itemToReturn = new(id, "Empty", ' ', 0, 0, new Point(point.X, point.Y), 0, amount);
 
-      if (id == 1) itemToReturn = new(id, "Player", '1', 0, new Point(point.X, point.Y), 100);
-      if (id == 2) itemToReturn = new(id, "Cobble", 'C', 0, new Point(point.X, point.Y), 999);
-      if (id == 3) itemToReturn = new(id, "Door", 'D', 0, new Point(point.X, point.Y), 999);
-      if (id == 4) itemToReturn = new(id, "Tree", 'T', 5, new Point(point.X, point.Y), 6);
-      if (id == 5) itemToReturn = new(id, "Wood", 'W', 0, new Point(point.X, point.Y), 999);
-      if (id == 6) itemToReturn = new(id, "Key", 'K', 0, new Point(point.X, point.Y), 999);
-      if (id == 7) itemToReturn = new(id, "RockFloor", 'R', 8, new Point(point.X, point.Y), 15);
-      if (id == 8) itemToReturn = new(id, "Stone", 'S', 0, new Point(point.X, point.Y), 999);
+      if (id == 1) itemToReturn = new(id, "Player", '1', 0, 0, new Point(point.X, point.Y), amount, 100);
+      if (id == 2) itemToReturn = new(id, "Cobble", 'C', 0, 0, new Point(point.X, point.Y), amount, 999);
+      if (id == 3) itemToReturn = new(id, "Door", 'D', 0, 0, new Point(point.X, point.Y), amount, 999);
+      if (id == 4) itemToReturn = new(id, "Tree", 'T', 5, 10, new Point(point.X, point.Y), amount, 6);
+      if (id == 5) itemToReturn = new(id, "Wood", 'W', 0, 0, new Point(point.X, point.Y), amount, 999);
+      if (id == 6) itemToReturn = new(id, "Key", 'K', 0, 0, new Point(point.X, point.Y), amount, 999);
+      if (id == 7) itemToReturn = new(id, "RockFloor", 'R', 8, 5, new Point(point.X, point.Y), amount, 15);
+      if (id == 8) itemToReturn = new(id, "Stone", 'S', 0, 0, new Point(point.X, point.Y), amount, 999);
 
       return itemToReturn;
     }
@@ -250,7 +250,7 @@ namespace RobinMagic
     public static void PlaceSector(int x, int y, Tiles tileToPlace, Items itemToPlace, Point pointItem)
     {
       Tile tile = ReturnTile((int)tileToPlace);
-      Item item = ReturnItem((int)itemToPlace, pointItem);
+      Item item = ReturnItem((int)itemToPlace, pointItem, 1);
       Sector sector = new(tile, item);
       Sectors[x, y] = sector;
     }
