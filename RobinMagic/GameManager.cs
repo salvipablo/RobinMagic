@@ -1,4 +1,6 @@
-﻿namespace RobinMagic
+﻿using System.Drawing;
+
+namespace RobinMagic
 {
     internal static class GameManager
     {
@@ -10,20 +12,20 @@
             return new Tile(id, "Land", Color.FromArgb(120, 67, 21));
         }
 
-        public static Item ReturnItem(int id)
+        public static Item ReturnItem(int id, Point point, int amount )
         {
-            Item itemToReturn = new(id, "Empty", ' ', 0, 0, new Point(0, 0), 0, 0);
+          Item itemToReturn = new(id, "Empty", ' ', 0, 0, new Point(point.X, point.Y), 0, amount);
 
-            if (id == 1) itemToReturn = new(id, "Player", '1', 0, 0, new Point(0, 0), 0, 100);
-            if (id == 2) itemToReturn = new(id, "Cobble", 'C', 0, 0, new Point(0, 0), 0, 999);
-            if (id == 3) itemToReturn = new(id, "Door", 'D', 0, 0, new Point(0, 0), 0, 999);
-            if (id == 4) itemToReturn = new(id, "Tree", 'T', 5, 10, new Point(0, 0), 0, 6);
-            if (id == 5) itemToReturn = new(id, "Wood", 'W', 0, 0, new Point(0, 0), 0, 999);
-            if (id == 6) itemToReturn = new(id, "Key", 'K', 0, 0, new Point(0, 0), 0, 999);
-            if (id == 7) itemToReturn = new(id, "RockFloor", 'R', 8, 5, new Point(0, 0), 0, 15);
-            if (id == 8) itemToReturn = new(id, "Stone", 'S', 0, 0, new Point(0, 0), 0, 999);
+          if (id == 1) itemToReturn = new(id, "Player", '1', 0, 0, new Point(point.X, point.Y), amount, 100);
+          if (id == 2) itemToReturn = new(id, "Cobble", 'C', 0, 0, new Point(point.X, point.Y), amount, 999);
+          if (id == 3) itemToReturn = new(id, "Door", 'D', 0, 0, new Point(point.X, point.Y), amount, 999);
+          if (id == 4) itemToReturn = new(id, "Tree", 'T', 5, 10, new Point(point.X, point.Y), amount, 6);
+          if (id == 5) itemToReturn = new(id, "Wood", 'W', 0, 0, new Point(point.X, point.Y), amount, 999);
+          if (id == 6) itemToReturn = new(id, "Key", 'K', 0, 0, new Point(point.X, point.Y), amount, 999);
+          if (id == 7) itemToReturn = new(id, "RockFloor", 'R', 8, 5, new Point(point.X, point.Y), amount, 15);
+          if (id == 8) itemToReturn = new(id, "Stone", 'S', 0, 0, new Point(point.X, point.Y), amount, 999);
 
-            return itemToReturn;
+          return itemToReturn;
         }
-    }
+  }
 }

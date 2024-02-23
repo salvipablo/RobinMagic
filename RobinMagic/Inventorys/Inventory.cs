@@ -8,7 +8,7 @@
 
     public static void StoreItemInInventory(int idItemToSave, int amountToSave,int posArraySearch = 0)
     {
-      Item itemToSave = GameManager.ReturnItem(idItemToSave);
+      Item itemToSave = GameManager.ReturnItem(idItemToSave, new Point(0, 0), 0);
 
       int posItemFound = Items.FindIndex(posArraySearch, x => x.Name.Equals(itemToSave.Name));
 

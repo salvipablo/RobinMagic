@@ -90,7 +90,7 @@ namespace RobinMagic
     private void FrmMain_KeyDown( object sender, KeyEventArgs e )
     {
       if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up || e.KeyCode == Keys.Right || e.KeyCode == Keys.Left) this.PlayerMove(e);
-      if (e.KeyCode == Keys.I) this.InvestigateArea();
+      if (e.KeyCode == Keys.L) this.InvestigateArea();
       if (e.KeyCode == Keys.Space) this.Hit();
       if (e.KeyCode == Keys.I) ShowInventory();
 
@@ -118,7 +118,7 @@ namespace RobinMagic
           int QuantityToStore = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.AmountToObtain;
 
           GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item =
-                          GameMap.ReturnItem(idItemToObtain, new Point(Player.GetItem().Location.X, Player.GetItem().Location.Y), QuantityToStore);
+                          GameManager.ReturnItem(idItemToObtain, new Point(Player.GetItem().Location.X, Player.GetItem().Location.Y), QuantityToStore);
 
           this.ShowScreen();
         }
@@ -179,7 +179,7 @@ namespace RobinMagic
           if (WhatSectorMoveTo.Y < 0) WhatSectorMoveTo.Y = 17;
 
           // Coloco item vacio donde esta el personaje.
-          Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
+          Item empty = GameManager.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
           GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
 
           player.Location = playerPosAfterMov;
@@ -190,7 +190,7 @@ namespace RobinMagic
         } 
         else
         {
-          Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
+          Item empty = GameManager.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
           GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
           sectors[WhatSectorMoveToBefore.X, WhatSectorMoveToBefore.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
 
