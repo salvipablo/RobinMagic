@@ -10,8 +10,10 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
-    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(1, 1), 1, 999);
+    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(16, 16), 1, 999);
     private readonly Key key = Key.GetKey(6, "Key", 'K', 0, 1, new Point(15, 9), false, 1, 999);
+    private Point TopLeftVertex;
+    private Point WhatSectorMoveTo;
 
     public FrmMain()
     {
@@ -25,9 +27,9 @@ namespace RobinMagic
       int posX = initialPositionScreenX;
       int posY = initialPositionScreenY;
 
-      for (int y = 0; y < GameMap.Sectors.GetLongLength(1); y++)
+      for (int y = 0; y < 18; y++)
       {
-        for (int x = 0; x < GameMap.Sectors.GetLongLength(0); x++)
+        for (int x = 0; x < 18; x++)
         {
           label = new Label
           {
@@ -49,18 +51,39 @@ namespace RobinMagic
       }
 
       GameMap.FillMap();
+
+      TopLeftVertex.X = ReturnTopLeftVertex(player!.Location).X;
+      TopLeftVertex.Y = ReturnTopLeftVertex(player.Location).Y;
+
+      WhatSectorMoveTo.X = player.Location.X; 
+      WhatSectorMoveTo.Y = player.Location.Y;
+
       ShowScreen();
+      ShowInfoScreen();
+    }
+
+    #pragma warning disable CA1822 // Marcar miembros como static
+    public Point ReturnTopLeftVertex(Point PosPlayer)
+    {
+      return new Point((PosPlayer.X / 18) * 18, (PosPlayer.Y / 18) * 18);
     }
 
     public void ShowScreen()
     {
-      for (int y = 0; y < GameMap.Sectors.GetLongLength(1); y++)
+      int ySectors = -1;
+      int xSectors = -1;
+
+      for (int y = TopLeftVertex.Y; y < TopLeftVertex.Y + 18; y++)
       {
-        for (int x = 0; x < GameMap.Sectors.GetLongLength(0); x++)
+        ySectors++;
+        for (int x = TopLeftVertex.X; x < TopLeftVertex.X + 18; x++)
         {
-          sectors[x, y].BackColor = GameMap.Sectors[x, y].Tile.Color;
-          sectors[x, y].Text = GameMap.Sectors[x, y].Item.Symbol.ToString();
+          xSectors++;
+          sectors[xSectors, ySectors].BackColor = GameMap.Sectors[x, y].Tile.Color;
+          sectors[xSectors, ySectors].Text = GameMap.Sectors[x, y].Item.Symbol.ToString();
         }
+
+        xSectors = -1;
       }
     }
 
@@ -119,33 +142,71 @@ namespace RobinMagic
 
     private void PlayerMove( KeyEventArgs keyPressed )
     {
+      Point WhatSectorMoveToBefore = WhatSectorMoveTo;
       Point playerPosAfterMov = player!.Location;
 
-      if (keyPressed.KeyCode == Keys.Down && player.Location.Y < 17) playerPosAfterMov.Y += 1;
+      if (keyPressed.KeyCode == Keys.Down && player.Location.Y < GameMap.Sectors.GetLongLength(1) - 1) playerPosAfterMov.Y += 1;
       if (keyPressed.KeyCode == Keys.Up && player.Location.Y > 0) playerPosAfterMov.Y -= 1;
-      if (keyPressed.KeyCode == Keys.Right && player.Location.X < 17) playerPosAfterMov.X += 1;
+      if (keyPressed.KeyCode == Keys.Right && player.Location.X < GameMap.Sectors.GetLongLength(0) - 1) playerPosAfterMov.X += 1;
       if (keyPressed.KeyCode == Keys.Left && player.Location.X > 0) playerPosAfterMov.X -= 1;
 
       bool canIMove = Player.WasThereACollision(playerPosAfterMov);
 
       if (!canIMove)
       {
-        Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
-        GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
-        sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
+        if (keyPressed.KeyCode == Keys.Down && player.Location.Y < GameMap.Sectors.GetLongLength(1) - 1) WhatSectorMoveTo.Y += 1;
+        if (keyPressed.KeyCode == Keys.Up && player.Location.Y > 0) WhatSectorMoveTo.Y -= 1;
+        if (keyPressed.KeyCode == Keys.Right && player.Location.X < GameMap.Sectors.GetLongLength(0) - 1) WhatSectorMoveTo.X += 1;
+        if (keyPressed.KeyCode == Keys.Left && player.Location.X > 0) WhatSectorMoveTo.X -= 1;
+      }
 
-        player.Location = playerPosAfterMov;
-
-        // ACA VERIFICO SI LA POSICION DEL PLAYER ES IGUAL A LA DE UN ITEM QUE SE PUEDE JUNTAR, LLAMO A ALMACENAR
-        if (GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Stone" ||
-                                            GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Wood")
+      if (!canIMove)
+      {
+        Point TopLeftVertexTemp = new(0, 0)
         {
-          Inventory.StoreItemInInventory(GameMap.Sectors[player.Location.X, player.Location.Y].Item.Id,
-                                                    GameMap.Sectors[player.Location.X, player.Location.Y].Item.Amount);
-        }
+          X = ReturnTopLeftVertex(playerPosAfterMov).X,
+          Y = ReturnTopLeftVertex(playerPosAfterMov).Y
+        };
 
-        GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
-        sectors[player.Location.X, player.Location.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
+        if (TopLeftVertex.X != TopLeftVertexTemp.X || TopLeftVertex.Y != TopLeftVertexTemp.Y)
+        {
+          TopLeftVertex.X = ReturnTopLeftVertex(playerPosAfterMov).X;
+          TopLeftVertex.Y = ReturnTopLeftVertex(playerPosAfterMov).Y;
+
+          if (WhatSectorMoveTo.X > 17) WhatSectorMoveTo.X = 0;
+          if (WhatSectorMoveTo.X < 0) WhatSectorMoveTo.X = 17;
+          if (WhatSectorMoveTo.Y > 17) WhatSectorMoveTo.Y = 0;
+          if (WhatSectorMoveTo.Y < 0) WhatSectorMoveTo.Y = 17;
+
+          // Coloco item vacio donde esta el personaje.
+          Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
+          GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
+
+          player.Location = playerPosAfterMov;
+
+          // Coloco al personaje en el mapa
+          GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
+          ShowScreen();
+        } 
+        else
+        {
+          Item empty = GameMap.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
+          GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
+          sectors[WhatSectorMoveToBefore.X, WhatSectorMoveToBefore.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
+
+          player.Location = playerPosAfterMov;
+
+          // ACA VERIFICO SI LA POSICION DEL PLAYER ES IGUAL A LA DE UN ITEM QUE SE PUEDE JUNTAR, LLAMO A ALMACENAR
+          if (GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Stone" ||
+                                              GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Wood")
+          {
+            Inventory.StoreItemInInventory(GameMap.Sectors[player.Location.X, player.Location.Y].Item.Id,
+                                                      GameMap.Sectors[player.Location.X, player.Location.Y].Item.Amount);
+          }
+
+          GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
+          sectors[WhatSectorMoveTo.X, WhatSectorMoveTo.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
+        }
       }
 
       ShowInfoScreen();
@@ -154,7 +215,7 @@ namespace RobinMagic
     private void ShowInfoScreen()
     {
       lblPosition.Text = $"Player Position: ({this.player!.Location.X}, {this.player.Location.Y})";
-      lblItem.Text = $"Item en frente: {Player.GetItem().Name}";
+      lblItem.Text = Player.GetItem() == null ?  $"Item en frente:" : $"Item en frente: {Player.GetItem().Name}";
 
       if (player.Location.X == 4 && player.Location.Y == 5)
       {
@@ -166,9 +227,16 @@ namespace RobinMagic
     #pragma warning disable CA1822 // Marcar miembros como static
     private void StoreInInventory()
     {
-      int idMaterial = int.Parse(Interaction.InputBox("Ingrese ID de Material a almacenar:", "System"));
-      int cantidad = int.Parse(Interaction.InputBox("Ingrese cantidad de Material a almacenar:", "System"));
-      Inventory.StoreItemInInventory(idMaterial, cantidad, 0);
+      try
+      {
+        int idMaterial = int.Parse(Interaction.InputBox("Ingrese ID de Material a almacenar:", "System"));
+        int cantidad = int.Parse(Interaction.InputBox("Ingrese cantidad de Material a almacenar:", "System"));
+        Inventory.StoreItemInInventory(idMaterial, cantidad, 0);
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show($"No colocaste o ID de material, o cantidad a almacenar: {e.Message}");
+      }
     }
 
     private void ShowInventory()
@@ -180,6 +248,8 @@ namespace RobinMagic
 
       foreach (Control Component in frmInventory.flowLayoutPanel1.Controls)
       {
+        if (i > QuantityItemsIninventory) { break; }
+
         if (Component is Panel)
         {
           foreach (Control Control in Component.Controls)
@@ -188,8 +258,6 @@ namespace RobinMagic
             if (Control.Name == $"lblItem{i}_C") Control.Text = Inventory.Items[i - 1].Amount.ToString();
           }
           i++;
-
-          if (i > QuantityItemsIninventory) { break; }
         }
       }
 

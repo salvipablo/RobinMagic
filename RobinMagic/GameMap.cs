@@ -4,7 +4,7 @@ namespace RobinMagic
 {
   internal static class GameMap
   {
-    public static Sector[,] Sectors = new Sector[18, 18];
+    public static Sector[,] Sectors = new Sector[36, 36];
 
     public enum Tiles
     {
@@ -85,42 +85,42 @@ namespace RobinMagic
           if (x == 2 && y == 5) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
 
           // Ocean.
-          if (x == 0 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 1 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 2 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 3 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 4 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 5 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 6 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 7 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 8 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 9 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 10 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 11 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 12 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 13 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 14 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 15 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 16 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 17 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 0 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 1 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 2 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 3 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 4 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 5 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 6 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 7 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 8 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 9 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 10 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 11 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 12 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 13 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 14 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 15 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 16 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-          if (x == 17 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 0 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 1 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 2 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 3 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 4 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 5 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 6 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 7 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 8 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 9 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 10 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 11 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 12 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 13 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 14 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 15 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 16 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 17 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 0 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 1 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 2 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 3 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 4 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 5 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 6 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 7 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 8 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 9 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 10 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 11 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 12 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 13 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 14 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 15 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 16 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
+          //if (x == 17 && y == 17) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
 
           // Grass.
           if (x == 13 && y == 7) PlaceSector(x, y, Tiles.Grass, Items.Empty, new Point(x, y));
@@ -206,14 +206,26 @@ namespace RobinMagic
           if (x == 8 && y == 8) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
           if (x == 8 && y == 9) PlaceSector(x, y, Tiles.Cement, Items.Empty, new Point(x, y));
 
-          // Player.
+          // RockFloor.
           if (x == 16 && y == 14) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
           if (x == 17 && y == 14) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
           if (x == 16 && y == 15) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
           if (x == 17 && y == 15) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
 
           // Player.
-          if (x == 1 && y == 1) PlaceSector(x, y, Tiles.Cement, Items.Player, new Point(x, y));
+          if (x == 16 && y == 16) PlaceSector(x, y, Tiles.Land, Items.Player, new Point(x, y));
+
+          // RockFloor en otro lado del mapa.
+          if (x == 25 && y == 3) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+          if (x == 26 && y == 3) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+          if (x == 25 && y == 4) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+          if (x == 26 && y == 4) PlaceSector(x, y, Tiles.Land, Items.RockFloor, new Point(x, y));
+
+          // Grass and Trees en otro lado del mapa.
+          if (x == 5 && y == 22) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
+          if (x == 5 && y == 23) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
+          if (x == 6 && y == 22) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
+          if (x == 6 && y == 23) PlaceSector(x, y, Tiles.Grass, Items.Tree, new Point(x, y));
         }
       }
     }
