@@ -22,6 +22,7 @@
       if (itemInFront.Name == "Key") return false;
       if (itemInFront.Name == "Wood") return false;
       if (itemInFront.Name == "Stone") return false;
+      if (itemInFront.Name == "Iron") return false;
       if (itemInFront.Name == "Door" && IHaveKey) return false;
 
       return GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Item.Symbol != ' ' || GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Tile.Material == "Ocean"; 

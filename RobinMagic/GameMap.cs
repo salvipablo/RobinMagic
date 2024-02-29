@@ -1,5 +1,7 @@
-﻿using RobinMagic.Items;
+﻿using RobinMagic.buildings;
+using RobinMagic.Items;
 using RobinMagicUI;
+using System.Drawing;
 
 namespace RobinMagic
 {
@@ -13,6 +15,7 @@ namespace RobinMagic
       Cement,
       Ocean,
       Grass,
+      Sand
     }
 
     public enum Items
@@ -25,15 +28,18 @@ namespace RobinMagic
       Wood,
       Key,
       RockFloor,
-      Stone
+      Stone,
+      IronOre
     }
 
     public static void FillMap()
     {
+      // Here I go through all the sectors of the map.
       for (int y = 0; y < Sectors.GetLongLength(1); y++)
       {
         for (int x = 0; x < Sectors.GetLongLength(0); x++)
         {
+          // By default, common ground is placed and item is placed empty..
           PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
 
           // Land and Trees.
@@ -47,46 +53,12 @@ namespace RobinMagic
           if (x == 15 && y == 4) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.Tree, new Point(x, y), 0));
           if (x == 17 && y == 6) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.Tree, new Point(x, y), 0));
 
-          // Cement.
-          if (x == 1 && y == 1) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 2) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 3) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 4) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 5) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 6) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 7) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 8) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 9) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 10) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 11) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 12) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 1 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 2 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 3 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 4 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 5 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 6 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 7 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 8 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 9 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 10 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 11 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 12 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 13 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 14 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 15 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 16 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 17 && y == 13) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
-          if (x == 2 && y == 5) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(x, y), 0));
 
           // RockFloor.
           if (x == 16 && y == 14) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.RockFloor, new Point(x, y), 0));
           if (x == 17 && y == 14) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.RockFloor, new Point(x, y), 0));
           if (x == 16 && y == 15) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.RockFloor, new Point(x, y), 0));
           if (x == 17 && y == 15) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.RockFloor, new Point(x, y), 0));
-
-          // Player.
-          if (x == 16 && y == 16) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.Player, new Point(x, y), 0));
 
           // RockFloor en otro lado del mapa.
           if (x == 25 && y == 3) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.RockFloor, new Point(x, y), 0));
@@ -99,8 +71,23 @@ namespace RobinMagic
           if (x == 5 && y == 23) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Grass), GameManager.ReturnItem((int)Items.Tree, new Point(x, y), 0));
           if (x == 6 && y == 22) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Grass), GameManager.ReturnItem((int)Items.Tree, new Point(x, y), 0));
           if (x == 6 && y == 23) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Grass), GameManager.ReturnItem((int)Items.Tree, new Point(x, y), 0));
+
+          // Iron ore.
+          if (x == 0 && y == 27) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.IronOre, new Point(x, y), 0));
         }
       }
+
+      // Cement.
+      GameMap.PlaceCement();
+
+      // Ocean.
+      GameMap.PlaceOcean();
+
+      // Sand.
+      GameMap.PlaceSand();
+
+      // Player.
+      PlaceSector(16, 16, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.Player, new Point(16, 16), 0));
 
       // Grass and Trees.
       for (int y = 7; y < 12; y++)
@@ -115,11 +102,9 @@ namespace RobinMagic
         }
       }
 
-      // Ocean.
-      //if (x == 0 && y == 16) PlaceSector(x, y, Tiles.Ocean, Items.Empty, new Point(x, y));
-
       // Agrego un castilo
-      Castle castle = new Castle(3, 1);
+      Castle castle = new(3, 1);
+      int StartingPointBuildingX = castle.LocationInXOnMap;
       for (int i = 0; i < castle.SectorsCastle.GetLongLength(1); i++)
       {
         for (int j = 0; j < castle.SectorsCastle.GetLongLength(0); j++)
@@ -127,8 +112,50 @@ namespace RobinMagic
           PlaceSector(castle.LocationInXOnMap, castle.LocationInYOnMap, castle.SectorsCastle[j, i].Tile, castle.SectorsCastle[j, i].Item);
           castle.LocationInXOnMap++;
         }
-        castle.LocationInXOnMap = 3;
+        castle.LocationInXOnMap = StartingPointBuildingX;
         castle.LocationInYOnMap++;
+      }
+
+      // Agrego una casa
+      House house = new(13, 21);
+      StartingPointBuildingX = house.LocationInXOnMap;
+      for (int i = 0; i < house.SectorHouse.GetLongLength(1); i++)
+      {
+        for (int j = 0; j < house.SectorHouse.GetLongLength(0); j++)
+        {
+          PlaceSector(house.LocationInXOnMap, house.LocationInYOnMap, house.SectorHouse[j, i].Tile, house.SectorHouse[j, i].Item);
+          house.LocationInXOnMap++;
+        }
+        house.LocationInXOnMap = StartingPointBuildingX;
+        house.LocationInYOnMap++;
+      }
+
+      // Agrego una casa
+      house = new(25, 21);
+      StartingPointBuildingX = house.LocationInXOnMap;
+      for (int i = 0; i < house.SectorHouse.GetLongLength(1); i++)
+      {
+        for (int j = 0; j < house.SectorHouse.GetLongLength(0); j++)
+        {
+          PlaceSector(house.LocationInXOnMap, house.LocationInYOnMap, house.SectorHouse[j, i].Tile, house.SectorHouse[j, i].Item);
+          house.LocationInXOnMap++;
+        }
+        house.LocationInXOnMap = StartingPointBuildingX;
+        house.LocationInYOnMap++;
+      }
+
+      // Agrego una casa
+      house = new(32, 27);
+      StartingPointBuildingX = house.LocationInXOnMap;
+      for (int i = 0; i < house.SectorHouse.GetLongLength(1); i++)
+      {
+        for (int j = 0; j < house.SectorHouse.GetLongLength(0); j++)
+        {
+          PlaceSector(house.LocationInXOnMap, house.LocationInYOnMap, house.SectorHouse[j, i].Tile, house.SectorHouse[j, i].Item);
+          house.LocationInXOnMap++;
+        }
+        house.LocationInXOnMap = StartingPointBuildingX;
+        house.LocationInYOnMap++;
       }
     }
 
@@ -142,6 +169,101 @@ namespace RobinMagic
     {
       Sector sector = new(tile, item);
       Sectors[x, y] = sector;
+    }
+
+    public static void PlaceCement()
+    {
+      PlaceSector(1, 1, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 1), 0));
+      PlaceSector(1, 2, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 2), 0));
+      PlaceSector(1, 3, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 3), 0));
+      PlaceSector(1, 4, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 4), 0));
+      PlaceSector(1, 5, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 5), 0));
+      PlaceSector(1, 6, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 6), 0));
+      PlaceSector(1, 7, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 7), 0));
+      PlaceSector(1, 8, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 8), 0));
+      PlaceSector(1, 9, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 9), 0));
+      PlaceSector(1, 10, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 10), 0));
+      PlaceSector(1, 11, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 11), 0));
+      PlaceSector(1, 12, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 12), 0));
+      PlaceSector(1, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(1, 13), 0));
+      PlaceSector(2, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(2, 13), 0));
+      PlaceSector(3, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(3, 13), 0));
+      PlaceSector(4, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(4, 13), 0));
+      PlaceSector(5, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(5, 13), 0));
+      PlaceSector(6, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(6, 13), 0));
+      PlaceSector(7, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(7, 13), 0));
+      PlaceSector(8, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(8, 13), 0));
+      PlaceSector(9, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(9, 13), 0));
+      PlaceSector(10, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(10, 13), 0));
+      PlaceSector(11, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(11, 13), 0));
+      PlaceSector(12, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(12, 13), 0));
+      PlaceSector(13, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(13, 13), 0));
+      PlaceSector(14, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(14, 13), 0));
+      PlaceSector(15, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(15, 13), 0));
+      PlaceSector(16, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(16, 13), 0));
+      PlaceSector(17, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(18, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(19, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(20, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(21, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 13, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 14, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 15, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 16, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 17, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 18, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 19, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 20, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 21, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 22, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 23, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 24, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 25, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 26, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 27, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 28, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 29, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(22, 30, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+      PlaceSector(10, 14, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 15, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 16, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 17, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 18, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 19, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 20, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 21, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 22, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 23, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 24, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 25, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 26, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 27, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 28, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 29, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(10, 30, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(0, 0), 0));
+      PlaceSector(2, 5, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.Empty, new Point(2, 5), 0));
+    }
+
+    public static void PlaceOcean()
+    {
+      for (int y = 33; y < 36; y++)
+      {
+        for (int x = 0; x < 36; x++)
+        {
+          PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Ocean), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+        }
+      }
+    }
+
+    public static void PlaceSand()
+    {
+      for (int y = 31; y < 33; y++)
+      {
+        for (int x = 0; x < 36; x++)
+        {
+          PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Sand), GameManager.ReturnItem((int)Items.Empty, new Point(17, 13), 0));
+        }
+      }
     }
   }
 }

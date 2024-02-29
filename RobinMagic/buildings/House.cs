@@ -1,21 +1,25 @@
-﻿using RobinMagic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace RobinMagicUI
+namespace RobinMagic.buildings
 {
-  internal class Castle
+  internal class House
   {
-    public Sector[,] SectorsCastle = new Sector[6, 9];
+    public Sector[,] SectorHouse = new Sector[3, 3];
     public int LocationInXOnMap;
     public int LocationInYOnMap;
 
-    public Castle(int locationInXOnMap , int locationInYOnMap )
+    public House( int locationInXOnMap, int locationInYOnMap )
     {
       LocationInXOnMap = locationInXOnMap;
       LocationInYOnMap = locationInYOnMap;
-      BuildCastle();
+      BuildHouse();
     }
 
-    public void BuildCastle()
+    public void BuildHouse()
     {
       int x = -1;
       int y = -1;
@@ -23,7 +27,7 @@ namespace RobinMagicUI
 
       try
       {
-        StreamReader sr = new("C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\buildings\\Castle_6x9\\Tiles.txt");
+        StreamReader sr = new("C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\buildings\\House_3x3\\Tiles.txt");
         line = sr.ReadLine();
         while (line != null)
         {
@@ -33,7 +37,7 @@ namespace RobinMagicUI
           {
             x++;
             int idTile = ReturnIDTileFromChar(letter);
-            SectorsCastle[x, y] = new Sector(GameManager.ReturnTile(idTile), GameManager.ReturnItem(0, new Point(0, 0), 0));
+            SectorHouse[x, y] = new Sector(GameManager.ReturnTile(idTile), GameManager.ReturnItem(0, new Point(0, 0), 0));
           }
 
           x = -1;
@@ -45,14 +49,14 @@ namespace RobinMagicUI
       }
       catch (Exception e) { MessageBox.Show($"Exception: {e.Message}"); }
 
-      int posItemX = 3;
-      int posItemY = 1;
+      int posItemX = 13;
+      int posItemY = 21;
 
       x = -1;
       y = -1;
       try
       {
-        StreamReader sr = new("C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\buildings\\Castle_6x9\\Items.txt");
+        StreamReader sr = new("C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\buildings\\House_3x3\\Items.txt");
         line = sr.ReadLine();
         while (line != null)
         {
@@ -62,7 +66,7 @@ namespace RobinMagicUI
           {
             x++;
             int idItem = ReturnIDItemFromChar(letter);
-            SectorsCastle[x, y].Item = GameManager.ReturnItem(idItem, new Point(posItemX, posItemY), 0);
+            SectorHouse[x, y].Item = GameManager.ReturnItem(idItem, new Point(posItemX, posItemY), 0);
             posItemX++;
           }
 
@@ -77,7 +81,7 @@ namespace RobinMagicUI
       catch (Exception e) { MessageBox.Show($"Exception: {e.Message}"); }
     }
 
-    private int ReturnIDTileFromChar(char character)
+    private int ReturnIDTileFromChar( char character )
     {
       if (character == 'C') return 1;
       return 0;

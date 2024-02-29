@@ -197,8 +197,12 @@ namespace RobinMagic
           player.Location = playerPosAfterMov;
 
           // ACA VERIFICO SI LA POSICION DEL PLAYER ES IGUAL A LA DE UN ITEM QUE SE PUEDE JUNTAR, LLAMO A ALMACENAR
-          if (GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Stone" ||
-                                              GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Wood")
+          if
+          (
+                GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Stone" ||
+                GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Wood" ||
+                GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Iron"
+          )
           {
             Inventory.StoreItemInInventory(GameMap.Sectors[player.Location.X, player.Location.Y].Item.Id,
                                                       GameMap.Sectors[player.Location.X, player.Location.Y].Item.Amount);
