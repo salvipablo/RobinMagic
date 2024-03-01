@@ -10,7 +10,7 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
-    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(16, 16), 1, 999);
+    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(28, 25), 1, 999);
     private readonly Key key = Key.GetKey(6, "Key", 'K', 0, 1, new Point(15, 9), false, 1, 999);
     private Point TopLeftVertex;
     private Point WhatSectorMoveTo;
@@ -55,8 +55,8 @@ namespace RobinMagic
       TopLeftVertex.X = ReturnTopLeftVertex(player!.Location).X;
       TopLeftVertex.Y = ReturnTopLeftVertex(player.Location).Y;
 
-      WhatSectorMoveTo.X = player.Location.X; 
-      WhatSectorMoveTo.Y = player.Location.Y;
+      WhatSectorMoveTo.X = player.Location.X - TopLeftVertex.X; 
+      WhatSectorMoveTo.Y = player.Location.Y - TopLeftVertex.Y;
 
       ShowScreen();
       ShowInfoScreen();
@@ -150,23 +150,23 @@ namespace RobinMagic
       if (keyPressed.KeyCode == Keys.Right && player.Location.X < GameMap.Sectors.GetLongLength(0) - 1) playerPosAfterMov.X += 1;
       if (keyPressed.KeyCode == Keys.Left && player.Location.X > 0) playerPosAfterMov.X -= 1;
 
-      bool canIMove = Player.WasThereACollision(playerPosAfterMov);
+      bool wasCollision = Player.WasThereACollision(playerPosAfterMov);
 
-      if (!canIMove)
+      if (!wasCollision)
       {
         if (keyPressed.KeyCode == Keys.Down && player.Location.Y < GameMap.Sectors.GetLongLength(1) - 1) WhatSectorMoveTo.Y += 1;
         if (keyPressed.KeyCode == Keys.Up && player.Location.Y > 0) WhatSectorMoveTo.Y -= 1;
         if (keyPressed.KeyCode == Keys.Right && player.Location.X < GameMap.Sectors.GetLongLength(0) - 1) WhatSectorMoveTo.X += 1;
         if (keyPressed.KeyCode == Keys.Left && player.Location.X > 0) WhatSectorMoveTo.X -= 1;
-      }
 
-      if (!canIMove)
-      {
         Point TopLeftVertexTemp = new(0, 0)
         {
           X = ReturnTopLeftVertex(playerPosAfterMov).X,
           Y = ReturnTopLeftVertex(playerPosAfterMov).Y
         };
+
+        //WhatSectorMoveToBefore.X = WhatSectorMoveToBefore.X - TopLeftVertexTemp.X;
+        //WhatSectorMoveToBefore.Y = WhatSectorMoveToBefore.Y - TopLeftVertexTemp.Y;
 
         if (TopLeftVertex.X != TopLeftVertexTemp.X || TopLeftVertex.Y != TopLeftVertexTemp.Y)
         {

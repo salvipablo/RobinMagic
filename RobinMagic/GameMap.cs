@@ -87,7 +87,7 @@ namespace RobinMagic
       GameMap.PlaceSand();
 
       // Player.
-      PlaceSector(16, 16, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.Player, new Point(16, 16), 0));
+      PlaceSector(28, 25, GameManager.ReturnTile((int)Tiles.Land), GameManager.ReturnItem((int)Items.Player, new Point(28, 25), 0));
 
       // Grass and Trees.
       for (int y = 7; y < 12; y++)
