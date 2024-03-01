@@ -5,6 +5,7 @@
     private static Player? _player;
     private static Item? itemInFront;
     private static bool IHaveKey = false;
+    private float FellingSpeed = 0.5f;
 
     private Player(int id, string name, char symbol, int itemToObtain, int amountToObtain, Point point, int amount, float life) : 
                                                                     base(id, name, symbol, itemToObtain, amountToObtain, point, amount, life) { }
@@ -14,6 +15,9 @@
       _player ??= new Player(id, name, symbol, itemToObtain, amountToObtain, point, amount, life);
       return _player;
     }
+
+    public float GetFellingSpeed() { return FellingSpeed; }
+    public void SetFellingSpeed(float fellingSpeed) { FellingSpeed += fellingSpeed; }
 
     public static bool WasThereACollision(Point newPlayerPos)
     {
@@ -30,7 +34,7 @@
 
     public static void SetIHaveKey() { IHaveKey = true; }
 
-#pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
+    #pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
     public static Item GetItem() => itemInFront;
   }
 }

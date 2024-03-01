@@ -10,7 +10,7 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
-    private readonly Item? player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(28, 25), 1, 999);
+    private readonly Player player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(6, 15), 1, 999);
     private readonly Key key = Key.GetKey(6, "Key", 'K', 0, 1, new Point(15, 9), false, 1, 999);
     private Point TopLeftVertex;
     private Point WhatSectorMoveTo;
@@ -50,7 +50,7 @@ namespace RobinMagic
         posY += mapSectorSizeY + 1;
       }
 
-      GameMap.FillMap();
+      GameMap.FillMap(player!.Location.X, player.Location.Y);
 
       TopLeftVertex.X = ReturnTopLeftVertex(player!.Location).X;
       TopLeftVertex.Y = ReturnTopLeftVertex(player.Location).Y;
@@ -93,6 +93,7 @@ namespace RobinMagic
       if (e.KeyCode == Keys.L) this.InvestigateArea();
       if (e.KeyCode == Keys.Space) this.Hit();
       if (e.KeyCode == Keys.I) ShowInventory();
+      if (e.KeyCode == Keys.D1) player.SetFellingSpeed(2);
 
       // TODO: Eliminar esta linea es solo para la simulacion del inventario.
       if (e.KeyCode == Keys.S) StoreInInventory();
@@ -109,9 +110,11 @@ namespace RobinMagic
 
       if (objectFront != null)
       {
-        objectFront!.LoseLife(0.5f);
+        MessageBox.Show(player.GetFellingSpeed().ToString());
 
-        if (objectFront!.GetLife() == 0)
+        objectFront!.LoseLife(player.GetFellingSpeed());
+        
+        if (objectFront!.GetLife() <= 0f)
         {
           int idItemToObtain = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.ItemToObtain;
 
