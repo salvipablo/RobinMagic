@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RobinMagic.Items
+﻿namespace RobinMagic.Items
 {
   internal class IronOre : Item
   {

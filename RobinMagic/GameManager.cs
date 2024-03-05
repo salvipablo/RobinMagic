@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace RobinMagic
+﻿namespace RobinMagic
 {
   internal static class GameManager
   {

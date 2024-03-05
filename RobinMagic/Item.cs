@@ -25,9 +25,9 @@
 
     public float GetLife() { return Life; }
 
-    public void LoseLife( float lifeToTake )
-    {
-      this.Life -= lifeToTake;
-    }
+    public void LoseLife(float lifeToTake) { this.Life -= lifeToTake; }
+
+    public virtual void ToEquip(Player player) { }
+    public virtual void UnequipItem(Player player) { }
   }
 }

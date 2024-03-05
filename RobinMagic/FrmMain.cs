@@ -1,5 +1,6 @@
 using Microsoft.VisualBasic;
 using RobinMagic.Inventorys;
+using RobinMagic.Items;
 
 namespace RobinMagic
 {
@@ -10,7 +11,7 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
-    private readonly Player player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(6, 15), 1, 999);
+    private readonly Player player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(6, 15), 1, 25);
     private readonly Key key = Key.GetKey(6, "Key", 'K', 0, 1, new Point(15, 9), false, 1, 999);
     private Point TopLeftVertex;
     private Point WhatSectorMoveTo;
@@ -93,10 +94,24 @@ namespace RobinMagic
       if (e.KeyCode == Keys.L) this.InvestigateArea();
       if (e.KeyCode == Keys.Space) this.Hit();
       if (e.KeyCode == Keys.I) ShowInventory();
-      if (e.KeyCode == Keys.D1) player.SetFellingSpeed(2);
+      if (e.KeyCode == Keys.D1) EquipItem(player.GetItems()[0]);
+      if (e.KeyCode == Keys.D2) EquipItem(player.GetItems()[1]);
+      if (e.KeyCode == Keys.D3) EquipItem(player.GetItems()[2]);
+      if (e.KeyCode == Keys.D4) EquipItem(player.GetItems()[3]);
+      if (e.KeyCode == Keys.D5) EquipItem(player.GetItems()[4]);
+      if (e.KeyCode == Keys.D6) EquipItem(player.GetItems()[5]);
+
+      // Actualizo la informacion de pantalla.
+      ShowInfoScreen();
 
       // TODO: Eliminar esta linea es solo para la simulacion del inventario.
       if (e.KeyCode == Keys.S) StoreInInventory();
+    }
+
+    private void EquipItem(Item item)
+    {
+      if (player.ItemEquippedOnPlayer().Name != "Empty") player.ItemEquippedOnPlayer().UnequipItem(player);
+      item.ToEquip(player);
     }
 
     private void Hit()
@@ -110,10 +125,13 @@ namespace RobinMagic
 
       if (objectFront != null)
       {
-        MessageBox.Show(player.GetFellingSpeed().ToString());
+        float HowMuchLife = 0.5f;
 
-        objectFront!.LoseLife(player.GetFellingSpeed());
-        
+        if (objectFront.Name == "Tree") HowMuchLife = player.GetAxeSpeed();
+        if (objectFront.Name == "RockFloor") HowMuchLife = player.GetPickaxeSpeed();
+
+        objectFront!.LoseLife(HowMuchLife);
+
         if (objectFront!.GetLife() <= 0f)
         {
           int idItemToObtain = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.ItemToObtain;
@@ -168,9 +186,6 @@ namespace RobinMagic
           Y = ReturnTopLeftVertex(playerPosAfterMov).Y
         };
 
-        //WhatSectorMoveToBefore.X = WhatSectorMoveToBefore.X - TopLeftVertexTemp.X;
-        //WhatSectorMoveToBefore.Y = WhatSectorMoveToBefore.Y - TopLeftVertexTemp.Y;
-
         if (TopLeftVertex.X != TopLeftVertexTemp.X || TopLeftVertex.Y != TopLeftVertexTemp.Y)
         {
           TopLeftVertex.X = ReturnTopLeftVertex(playerPosAfterMov).X;
@@ -211,6 +226,11 @@ namespace RobinMagic
                                                       GameMap.Sectors[player.Location.X, player.Location.Y].Item.Amount);
           }
 
+          if (GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Axe")
+                                  player.AddItem(GameMap.Sectors[player.Location.X, player.Location.Y].Item);
+          if (GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Pickaxe")
+                                    player.AddItem(GameMap.Sectors[player.Location.X, player.Location.Y].Item);
+
           GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
           sectors[WhatSectorMoveTo.X, WhatSectorMoveTo.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
         }
@@ -224,9 +244,36 @@ namespace RobinMagic
       lblPosition.Text = $"Player Position: ({this.player!.Location.X}, {this.player.Location.Y})";
       lblItem.Text = Player.GetItem() == null ?  $"Item en frente:" : $"Item en frente: {Player.GetItem().Name}";
 
-      if (player.Location.X == 4 && player.Location.Y == 5)
+      if (player.Location.X == 4 && player.Location.Y == 5) lblWin.Visible = true;
+
+      lblLife.Text = $"Vida: {player.GetLife()}";
+      lblAxeSpeed.Text = $"Velocidad de Hacha: {player.GetAxeSpeed()}.";
+      lblPickaxeSpeed.Text = $"Velocidad de Pico: {player.GetPickaxeSpeed()}.";
+      lblEquipped.Text = $"Equipado con: {player.ItemEquippedOnPlayer().Name}.";
+      int pos = 0;
+      foreach (var Item in player.GetItems())
       {
-        lblWin.Visible = true;
+
+        if (Item.Name != null && pos == 0 && Item.Name == "Axe")
+        {
+          picItemsPlayer_1.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png";
+        }
+
+        if (Item.Name != null && pos == 0 && Item.Name == "Pickaxe")
+        {
+          picItemsPlayer_1.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png";
+        }
+
+        if (Item.Name != null && pos == 1 && Item.Name == "Axe")
+        {
+          picItemsPlayer_2.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png";
+        }
+
+        if (Item.Name != null && pos == 1 && Item.Name == "Pickaxe")
+        {
+          picItemsPlayer_2.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png";
+        }
+        pos++;
       }
     }
 

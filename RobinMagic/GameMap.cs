@@ -72,6 +72,18 @@ namespace RobinMagic
           if (x == 2 && y == 27) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.IronOre, new Point(x, y), 0));
           if (x == 2 && y == 28) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.IronOre, new Point(x, y), 0));
           if (x == 2 && y == 29) PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Cement), GameManager.ReturnItem((int)Items.IronOre, new Point(x, y), 0));
+
+          if (x == 12 && y == 15)
+          {
+            Axe axe = new(11, "Axe", 'A', 0, 0, new Point(0, 0), 1, 999);
+            PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), axe);
+          }
+
+          if (x == 8 && y == 16)
+          {
+            Pickaxe pickaxe = new(12, "Pickaxe", 'P', 0, 0, new Point(0, 0), 1, 999);
+            PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), pickaxe);
+          }
         }
       }
 
