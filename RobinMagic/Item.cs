@@ -1,6 +1,8 @@
-﻿namespace RobinMagic
+﻿using RobinMagic.Items;
+
+namespace RobinMagic
 {
-  internal class Item
+  internal class Item: IEquippableItems
   {
     public int Id {get; set;}
     public string Name { get; set; }
@@ -27,7 +29,14 @@
 
     public void LoseLife(float lifeToTake) { this.Life -= lifeToTake; }
 
-    public virtual void ToEquip(Player player) { }
-    public virtual void UnequipItem(Player player) { }
+    public virtual void ToEquip( Player player )
+    {
+      throw new NotImplementedException();
+    }
+
+    public  virtual void UnequipItem( Player player )
+    {
+      throw new NotImplementedException();
+    }
   }
 }

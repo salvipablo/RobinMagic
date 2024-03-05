@@ -230,6 +230,8 @@ namespace RobinMagic
                                   player.AddItem(GameMap.Sectors[player.Location.X, player.Location.Y].Item);
           if (GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Pickaxe")
                                     player.AddItem(GameMap.Sectors[player.Location.X, player.Location.Y].Item);
+          if (GameMap.Sectors[player.Location.X, player.Location.Y].Item.Name == "Shovel")
+                                  player.AddItem(GameMap.Sectors[player.Location.X, player.Location.Y].Item);
 
           GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
           sectors[WhatSectorMoveTo.X, WhatSectorMoveTo.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
@@ -250,29 +252,32 @@ namespace RobinMagic
       lblAxeSpeed.Text = $"Velocidad de Hacha: {player.GetAxeSpeed()}.";
       lblPickaxeSpeed.Text = $"Velocidad de Pico: {player.GetPickaxeSpeed()}.";
       lblEquipped.Text = $"Equipado con: {player.ItemEquippedOnPlayer().Name}.";
+      lblShovelSpeed.Text = $"Velocidad de Pala: {player.GetShovelSpeed()}.";
+
       int pos = 0;
       foreach (var Item in player.GetItems())
       {
-
         if (Item.Name != null && pos == 0 && Item.Name == "Axe")
-        {
-          picItemsPlayer_1.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png";
-        }
-
+                  picItemsPlayer_1.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png";
         if (Item.Name != null && pos == 0 && Item.Name == "Pickaxe")
-        {
-          picItemsPlayer_1.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png";
-        }
+                  picItemsPlayer_1.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png";
+        if (Item.Name != null && pos == 0 && Item.Name == "Shovel")
+                  picItemsPlayer_1.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\shovel.png";
 
         if (Item.Name != null && pos == 1 && Item.Name == "Axe")
-        {
-          picItemsPlayer_2.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png";
-        }
-
+            picItemsPlayer_2.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png";
         if (Item.Name != null && pos == 1 && Item.Name == "Pickaxe")
-        {
-          picItemsPlayer_2.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png";
-        }
+            picItemsPlayer_2.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png";
+        if (Item.Name != null && pos == 1 && Item.Name == "Shovel")
+            picItemsPlayer_2.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\shovel.png";
+
+        if (Item.Name != null && pos == 2 && Item.Name == "Axe")
+          picItemsPlayer_3.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png";
+        if (Item.Name != null && pos == 2 && Item.Name == "Pickaxe")
+          picItemsPlayer_3.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png";
+        if (Item.Name != null && pos == 2 && Item.Name == "Shovel")
+          picItemsPlayer_3.ImageLocation = "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\shovel.png";
+
         pos++;
       }
     }

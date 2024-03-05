@@ -8,9 +8,11 @@
 
     private float AxeSpeedStat = 0.5f;  // Hacha Default.
     private float PickaxeSpeedStat = 0.5f;  // Pico Default.
+    private float ShovelSpeedStat = 0.5f;  // Pico Default.
 
     private float AxeSpeed = 0.5f;  // Hacha.
     private float PickaxeSpeed = 0.5f;  // Pico.
+    private float ShovelSpeed = 0.5f;  // Pico Default.
 
     private List<Item> Items = new List<Item>();  // Items equipados.
 
@@ -48,6 +50,14 @@
       else AxeSpeed = AxeSpeedStat;
     }
 
+    public float GetShovelSpeed() { return ShovelSpeed; }
+
+    public void SetShovelSpeed( float shovelSpeed, bool Equip )
+    {
+      if (Equip) ShovelSpeed = ShovelSpeedStat + shovelSpeed;
+      else ShovelSpeed = ShovelSpeedStat;
+    }
+
     public static bool WasThereACollision(Point newPlayerPos)
     {
       itemInFront = GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Item;
@@ -58,6 +68,7 @@
       if (itemInFront.Name == "Iron") return false;
       if (itemInFront.Name == "Axe") return false;
       if (itemInFront.Name == "Pickaxe") return false;
+      if (itemInFront.Name == "Shovel") return false;
       if (itemInFront.Name == "Door" && IHaveKey) return false;
 
       return GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Item.Symbol != ' ' || GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Tile.Material == "Ocean"; 

@@ -1,11 +1,10 @@
 ﻿namespace RobinMagic.Items
 {
-  internal class Pickaxe : Item
+  internal class Pickaxe : Item, IEquippableItems
   {
     private float PickaxeSpeed = 3;
     public Pickaxe( int id, string name, char symbol, int itemToObtain, int amountToObtain, Point point, int amount, float life ) :
-                                                                      base(id, name, symbol, itemToObtain, amountToObtain, point, amount, life)
-    { }
+                                                                      base(id, name, symbol, itemToObtain, amountToObtain, point, amount, life) { }
 
     public float getPickaxeSpeedSpeed() { return PickaxeSpeed; }
 

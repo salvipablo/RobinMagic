@@ -1,6 +1,6 @@
 ﻿namespace RobinMagic.Items
 {
-  internal class Axe : Item
+  internal class Axe : Item, IEquippableItems
   {
     private float AxeSpeed = 2;
     public Axe( int id, string name, char symbol, int itemToObtain, int amountToObtain, Point point, int amount, float life) : 

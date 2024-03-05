@@ -48,6 +48,7 @@
       label5 = new Label();
       label6 = new Label();
       label7 = new Label();
+      lblShovelSpeed = new Label();
       ((System.ComponentModel.ISupportInitialize)picItemsPlayer_1).BeginInit();
       ((System.ComponentModel.ISupportInitialize)picItemsPlayer_2).BeginInit();
       ((System.ComponentModel.ISupportInitialize)picItemsPlayer_4).BeginInit();
@@ -94,7 +95,7 @@
       // 
       lblEquipped.BackColor = Color.FromArgb(192, 255, 192);
       lblEquipped.ForeColor = SystemColors.ActiveCaptionText;
-      lblEquipped.Location = new Point(821, 140);
+      lblEquipped.Location = new Point(821, 171);
       lblEquipped.Name = "lblEquipped";
       lblEquipped.Size = new Size(200, 30);
       lblEquipped.TabIndex = 3;
@@ -267,12 +268,24 @@
       label7.TabIndex = 19;
       label7.Text = "6";
       // 
+      // lblShovelSpeed
+      // 
+      lblShovelSpeed.BackColor = SystemColors.Control;
+      lblShovelSpeed.ForeColor = SystemColors.ActiveCaptionText;
+      lblShovelSpeed.Location = new Point(821, 130);
+      lblShovelSpeed.Name = "lblShovelSpeed";
+      lblShovelSpeed.Size = new Size(200, 30);
+      lblShovelSpeed.TabIndex = 20;
+      lblShovelSpeed.Text = "Velocidad de Pala: 0.5.";
+      lblShovelSpeed.TextAlign = ContentAlignment.MiddleLeft;
+      // 
       // FrmMain
       // 
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       BackColor = Color.FromArgb(0, 11, 30);
       ClientSize = new Size(1084, 581);
+      Controls.Add(lblShovelSpeed);
       Controls.Add(label7);
       Controls.Add(label6);
       Controls.Add(label5);
@@ -329,5 +342,6 @@
     private Label label5;
     private Label label6;
     private Label label7;
+    private Label lblShovelSpeed;
   }
 }
