@@ -6,28 +6,29 @@
     private static Item? itemInFront;
     private static bool IHaveKey = false;
 
-    private float AxeSpeedStat = 0.5f;  // Hacha Default.
-    private float PickaxeSpeedStat = 0.5f;  // Pico Default.
-    private float ShovelSpeedStat = 0.5f;  // Pico Default.
+    private readonly float AxeSpeedStat = 0.5f;  // Hacha Default.
+    private readonly float PickaxeSpeedStat = 0.5f;  // Pico Default.
+    private readonly float ShovelSpeedStat = 0.5f;  // Pico Default.
 
     private float AxeSpeed = 0.5f;  // Hacha.
     private float PickaxeSpeed = 0.5f;  // Pico.
     private float ShovelSpeed = 0.5f;  // Pico Default.
 
-    private List<Item> Items = new List<Item>();  // Items equipados.
+    private readonly List<Item> Items = new();  // Items equipados.
 
     private Item EquippedItem = GameManager.ReturnItem(0, new Point(0, 0), 0);
 
-    private Player(int id, string name, char symbol, int itemToObtain, int amountToObtain, Point point, int amount, float life) : 
-                                                                    base(id, name, symbol, itemToObtain, amountToObtain, point, amount, life) { }
+    private Player(int id, string name, string symbol, int itemToObtain, int amountToObtain, Point point, int amount, float life, string pathItem ) : 
+                                                                    base(id, name, symbol, itemToObtain, amountToObtain, point, amount, life, pathItem) { }
 
-    public static Player GetPlayer(int id, string name, char symbol, int itemToObtain, int amountToObtain, Point point, int amount, float life)
+    public static Player GetPlayer(int id, string name, string symbol, int itemToObtain, int amountToObtain, Point point, int amount, float life, string pathItem )
     {
-      _player ??= new Player(id, name, symbol, itemToObtain, amountToObtain, point, amount, life);
+      _player ??= new Player(id, name, symbol, itemToObtain, amountToObtain, point, amount, life, pathItem);
       return _player;
     }
 
     public void EquipItem(Item item) { EquippedItem = item; }
+
     public Item ItemEquippedOnPlayer() { return EquippedItem; }
 
     public void AddItem(Item item) { Items.Add(item); }
@@ -71,7 +72,7 @@
       if (itemInFront.Name == "Shovel") return false;
       if (itemInFront.Name == "Door" && IHaveKey) return false;
 
-      return GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Item.Symbol != ' ' || GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Tile.Material == "Ocean"; 
+      return GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Item.Symbol != " " || GameMap.Sectors[newPlayerPos.X, newPlayerPos.Y].Tile.Material == "Ocean"; 
     }
 
     public static void SetIHaveKey() { IHaveKey = true; }

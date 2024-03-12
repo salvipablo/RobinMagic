@@ -11,8 +11,8 @@ namespace RobinMagic
     private readonly int mapSectorSizeX = 30;
     private readonly int mapSectorSizeY = 30;
     private readonly Label[,] sectors = new Label[GameMap.Sectors.GetLongLength(0), GameMap.Sectors.GetLongLength(1)];
-    private readonly Player player = Player.GetPlayer(1, "Pablo", '1', 0, 0, new Point(6, 15), 1, 25);
-    private readonly Key key = Key.GetKey(6, "Key", 'K', 0, 1, new Point(15, 9), false, 1, 999);
+    private readonly Player player = Player.GetPlayer(1, "Pablo", "P1", 0, 0, new Point(6, 15), 1, 25, "");
+    private readonly Key key = Key.GetKey(6, "Key", "K", 0, 1, new Point(15, 9), false, 1, 999, "");
     private Point TopLeftVertex;
     private Point WhatSectorMoveTo;
 
@@ -81,7 +81,7 @@ namespace RobinMagic
         {
           xSectors++;
           sectors[xSectors, ySectors].BackColor = GameMap.Sectors[x, y].Tile.Color;
-          sectors[xSectors, ySectors].Text = GameMap.Sectors[x, y].Item.Symbol.ToString();
+          sectors[xSectors, ySectors].Text = GameMap.Sectors[x, y].Item.Symbol?.ToString();
         }
 
         xSectors = -1;
@@ -94,6 +94,11 @@ namespace RobinMagic
       if (e.KeyCode == Keys.L) this.InvestigateArea();
       if (e.KeyCode == Keys.Space) this.Hit();
       if (e.KeyCode == Keys.I) ShowInventory();
+      if (e.KeyCode == Keys.C)
+      {
+        frmCasting frmCasting = new();
+        frmCasting.Show();
+      }
       if (e.KeyCode == Keys.D1) EquipItem(player.GetItems()[0]);
       if (e.KeyCode == Keys.D2) EquipItem(player.GetItems()[1]);
       if (e.KeyCode == Keys.D3) EquipItem(player.GetItems()[2]);
@@ -118,7 +123,7 @@ namespace RobinMagic
     {
       Item? objectFront = null;
 
-      if (GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.Symbol != ' ')
+      if (GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item.Symbol != " ")
       {
         objectFront = GameMap.Sectors[Player.GetItem().Location.X, Player.GetItem().Location.Y].Item;
       }
@@ -210,7 +215,7 @@ namespace RobinMagic
         {
           Item empty = GameManager.ReturnItem(0, new Point(player.Location.X, player.Location.Y), 0);
           GameMap.Sectors[player.Location.X, player.Location.Y].Item = empty;
-          sectors[WhatSectorMoveToBefore.X, WhatSectorMoveToBefore.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
+          sectors[WhatSectorMoveToBefore.X, WhatSectorMoveToBefore.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol?.ToString();
 
           player.Location = playerPosAfterMov;
 
@@ -234,7 +239,7 @@ namespace RobinMagic
                                   player.AddItem(GameMap.Sectors[player.Location.X, player.Location.Y].Item);
 
           GameMap.Sectors[player.Location.X, player.Location.Y].Item = player;
-          sectors[WhatSectorMoveTo.X, WhatSectorMoveTo.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol.ToString();
+          sectors[WhatSectorMoveTo.X, WhatSectorMoveTo.Y].Text = GameMap.Sectors[player.Location.X, player.Location.Y].Item.Symbol?.ToString();
         }
       }
 
@@ -313,7 +318,7 @@ namespace RobinMagic
         {
           foreach (Control Control in Component.Controls)
           {
-            if (Control.Name == $"lblItem{i}") Control.Text = Inventory.Items[i - 1].Symbol.ToString();
+            if (Control.Name == $"lblItem{i}") Control.Text = Inventory.Items[i - 1].Symbol?.ToString();
             if (Control.Name == $"lblItem{i}_C") Control.Text = Inventory.Items[i - 1].Amount.ToString();
           }
           i++;

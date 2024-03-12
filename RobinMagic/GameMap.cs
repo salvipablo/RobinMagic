@@ -75,19 +75,19 @@ namespace RobinMagic
 
           if (x == 12 && y == 15)
           {
-            Axe axe = new(11, "Axe", 'A', 0, 0, new Point(0, 0), 1, 999);
+            Axe axe = new(12, "Axe", "A", 0, 0, new Point(0, 0), 1, 999, "");
             PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), axe);
           }
 
           if (x == 8 && y == 16)
           {
-            Pickaxe pickaxe = new(12, "Pickaxe", 'P', 0, 0, new Point(0, 0), 1, 999);
+            Pickaxe pickaxe = new(13, "Pickaxe", "P", 0, 0, new Point(0, 0), 1, 999, "");
             PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), pickaxe);
           }
 
           if (x == 3 && y == 16)
           {
-            Shovel shovel = new Shovel(13, "Shovel", 'S', 0, 0, new Point(0, 0), 1, 999);
+            Shovel shovel = new(14, "Shovel", "S", 0, 0, new Point(0, 0), 1, 999, "");
             PlaceSector(x, y, GameManager.ReturnTile((int)Tiles.Land), shovel);
           }
         }

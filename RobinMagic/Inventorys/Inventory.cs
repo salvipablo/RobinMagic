@@ -6,11 +6,16 @@
     public static int NumberOfSlots = 10;
     public static int NumbersItemsCanBeStored = 30;
 
+    public static void DiscountItem(int idDiscountItem, int amount)
+    {
+      int posItemFound = Items.FindIndex(0, x => x.Id.Equals(idDiscountItem));
+    }
+
     public static void StoreItemInInventory(int idItemToSave, int amountToSave,int posArraySearch = 0)
     {
       Item itemToSave = GameManager.ReturnItem(idItemToSave, new Point(0, 0), 0);
 
-      int posItemFound = Items.FindIndex(posArraySearch, x => x.Name.Equals(itemToSave.Name));
+      int posItemFound = Items.FindIndex(posArraySearch, x => x.Name!.Equals(itemToSave.Name));
 
       // Este caso se produce cuando no encuentra el item, dentro del inventario, y no tiene mas espacios libres.
       if (posItemFound == -1 && Items.Count == NumberOfSlots)
