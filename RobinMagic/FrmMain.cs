@@ -61,6 +61,9 @@ namespace RobinMagic
 
       ShowScreen();
       ShowInfoScreen();
+
+      Inventory.StoreItemInInventory(5, 30, 0);
+      Inventory.StoreItemInInventory(5, 20, 0);
     }
 
     #pragma warning disable CA1822 // Marcar miembros como static

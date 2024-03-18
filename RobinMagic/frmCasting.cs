@@ -67,7 +67,7 @@ namespace RobinMagic
     {
       bool CanIBuild = false;
 
-      foreach (Item item in ItemsNeededToBuild) CanIBuild = CheckIfICanBuild(item.Id, 0, item.Amount);
+      foreach (Item item in ItemsNeededToBuild) CanIBuild = CheckIfICanBuild(item.Id, 0, item.Amount, 0);
 
       if (CanIBuild)
       {
@@ -77,17 +77,24 @@ namespace RobinMagic
       else MessageBox.Show("No se puede crear item, porque no cuenta con los materiales necesarios.", "RobinMagic");
     }
 
-    private bool CheckIfICanBuild(int idItem, int posArraySearch, int quantityOfThatItem)
+    private bool CheckIfICanBuild(int idItem, int posArraySearch, int quantityOfThatItem, int HowMuchHaveInInventory)
     {
+      bool returnValue = false;
+
       Item? item = null;
 
       int posItemFound = Inventory.Items.FindIndex(posArraySearch, x => x.Id.Equals(idItem));
 
       if (posItemFound != -1) item = Inventory.Items[posItemFound];
-      
-      if (posItemFound != -1 && item?.Amount < quantityOfThatItem) CheckIfICanBuild(idItem, posItemFound + 1, quantityOfThatItem);
-      if (posItemFound != -1 && item?.Amount >= quantityOfThatItem) return true;
-      return false;
+
+      if (posItemFound != -1 && item?.Amount < quantityOfThatItem)
+      {
+        HowMuchHaveInInventory += item.Amount;
+        returnValue = CheckIfICanBuild(idItem, posItemFound + 1, quantityOfThatItem, HowMuchHaveInInventory);
+      } else if (posItemFound != -1 && item?.Amount >= quantityOfThatItem) HowMuchHaveInInventory += item.Amount;
+
+      if (HowMuchHaveInInventory >= quantityOfThatItem) returnValue = true;
+      return returnValue;
     }
 
     private void btnCreateItems_Click(object sender, EventArgs e)

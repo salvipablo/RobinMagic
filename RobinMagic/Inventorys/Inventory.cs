@@ -8,7 +8,35 @@
 
     public static void DiscountItem(int idDiscountItem, int amount)
     {
-      int posItemFound = Items.FindIndex(0, x => x.Id.Equals(idDiscountItem));
+      int posItemFound = 0;
+      int posArraySearch = 0;
+
+      while (amount != 0)
+      {
+        posItemFound = Items.FindIndex(posArraySearch, x => x.Id.Equals(idDiscountItem));
+        int HowMuchIsThePositionFound = Items[posItemFound].Amount;
+        
+        if (posItemFound != -1 && HowMuchIsThePositionFound < amount)
+        {
+          Items[posItemFound].Amount -= HowMuchIsThePositionFound;
+          amount -= HowMuchIsThePositionFound;
+          HowMuchIsThePositionFound = 0;
+        }
+
+        if (posItemFound != -1 && HowMuchIsThePositionFound >= amount)
+        {
+          Items[posItemFound].Amount -= amount;
+          amount = 0;
+        }
+
+        posArraySearch = posItemFound + 1;
+      }
+    }
+
+    public static Item GetItemByIdAndPosition(int idItem, int posArraySearch)
+    {
+      int posItemFound = Inventory.Items.FindIndex(posArraySearch, x => x.Id.Equals(idItem));
+      return posItemFound == -1 ? GameManager.ReturnItem(0, new Point(0, 0), 0) : Items[posItemFound];
     }
 
     public static void StoreItemInInventory(int idItemToSave, int amountToSave,int posArraySearch = 0)
