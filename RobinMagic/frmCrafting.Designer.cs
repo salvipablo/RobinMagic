@@ -1,6 +1,6 @@
 ﻿namespace RobinMagic
 {
-  partial class frmCasting
+  partial class frmCrafting
   {
     /// <summary>
     /// Required designer variable.
@@ -28,7 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCasting));
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCrafting));
       cmbItem = new ComboBox();
       lblDescription = new Label();
       picItem_1 = new PictureBox();

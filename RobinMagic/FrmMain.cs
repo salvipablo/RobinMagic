@@ -99,7 +99,7 @@ namespace RobinMagic
       if (e.KeyCode == Keys.I) ShowInventory();
       if (e.KeyCode == Keys.C)
       {
-        frmCasting frmCasting = new();
+        frmCrafting frmCasting = new();
         frmCasting.Show();
       }
       if (e.KeyCode == Keys.D1) EquipItem(player.GetItems()[0]);

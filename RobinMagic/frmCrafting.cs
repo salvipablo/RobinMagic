@@ -2,7 +2,7 @@
 
 namespace RobinMagic
 {
-  public partial class frmCasting : Form
+  public partial class frmCrafting : Form
   {
     private readonly string[] strings = new string[4];  // Textos con descripcion para cada item a construir.
     private PictureBox[] pictureBoxes = new PictureBox[4];  // Array con los pictures (items necesarios para construir).
@@ -14,7 +14,7 @@ namespace RobinMagic
     private List<Item> ItemsNeededToBuild = new List<Item>(); // Listado con items necesarios para construir, con cantidades.
     private int IdItemToCreate;
 
-    public frmCasting()
+    public frmCrafting()
     {
       InitializeComponent();
 
