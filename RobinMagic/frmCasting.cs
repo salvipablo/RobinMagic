@@ -8,6 +8,7 @@ namespace RobinMagic
     private PictureBox[] pictureBoxes = new PictureBox[4];  // Array con los pictures (items necesarios para construir).
     private Label[] labels = new Label[4];  // Array con labels (cantidades de cada items necesarios para construir).
 
+    private Crafting DataCrafting = new();
     private Dictionary<int, Item[]> ConstructionItems = new Dictionary<int, Item[]>(); // Diccionario con recetas para la construccion de items.
 
     private List<Item> ItemsNeededToBuild = new List<Item>(); // Listado con items necesarios para construir, con cantidades.
@@ -35,8 +36,6 @@ namespace RobinMagic
 
     private void CmbItem_TextChanged( object sender, EventArgs e )
     {
-      Crafting crafting = new Crafting();
-
       int indexItemSelected = cmbItem.SelectedIndex;
 
       IdItemToCreate = GetIdItemToCreate(indexItemSelected);
@@ -46,9 +45,11 @@ namespace RobinMagic
         string textSelected = strings[indexItemSelected];
         lblDescription.Text = textSelected;
 
-        if (ConstructionItems.Count == 0) ConstructionItems = crafting.getItems();
+        if (ConstructionItems.Count == 0) ConstructionItems = DataCrafting.getItems();
 
         Item[] itemsNeeded = ConstructionItems[indexItemSelected + 1];
+
+        ItemsNeededToBuild.Clear();
 
         for (int i = 0; i < itemsNeeded.Count(); i++)
         {
@@ -97,10 +98,7 @@ namespace RobinMagic
       return returnValue;
     }
 
-    private void btnCreateItems_Click(object sender, EventArgs e)
-    {
-      Crafting((int)nudAmount.Value);
-    }
+    private void btnCreateItems_Click(object sender, EventArgs e) { Crafting((int)nudAmount.Value); }
 
     private int GetIdItemToCreate(int idItemCmb)
     {

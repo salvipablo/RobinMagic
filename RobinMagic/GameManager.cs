@@ -36,6 +36,12 @@
                         amount, 999, "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\Iron.png");
       if (id == 11) itemToReturn = new(id, "WoodenStick", "WS", 0, 0, new Point(point.X, point.Y),
                  amount, 999, "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\woodenStick.png");
+      if (id == 12) itemToReturn = new(id, "Axe", "AX", 0, 0, new Point(point.X, point.Y),
+                 amount, 999, "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\axe.png");
+      if (id == 13) itemToReturn = new(id, "Pickaxe", "PA", 0, 0, new Point(point.X, point.Y),
+                 amount, 999, "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\pickaxe.png");
+      if (id == 14) itemToReturn = new(id, "Shovel", "SH", 0, 0, new Point(point.X, point.Y),
+                 amount, 999, "C:\\Users\\psalvi\\source\\repos\\RobinMagic\\RobinMagic\\images\\shovel.png");
 
       return itemToReturn;
     }
