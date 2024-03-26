@@ -21,12 +21,16 @@
           Items[posItemFound].Amount -= HowMuchIsThePositionFound;
           amount -= HowMuchIsThePositionFound;
           HowMuchIsThePositionFound = 0;
+
+          Items[posItemFound] = GameManager.ReturnItem(0, new Point(0, 0), 0);
         }
 
         if (posItemFound != -1 && HowMuchIsThePositionFound >= amount)
         {
           Items[posItemFound].Amount -= amount;
           amount = 0;
+
+          if (Items[posItemFound].Amount == 0) Items[posItemFound] = GameManager.ReturnItem(0, new Point(0, 0), 0);
         }
 
         posArraySearch = posItemFound + 1;
