@@ -1,16 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
   public static InventorySystem Instance { get; set; }
   public GameObject inventoryScreenUI;
   public bool isOpen;
+  public GameObject ItemInfoUi;
   
   public List<GameObject> slotList = new List<GameObject>();
   public List<string> itemList = new List<string>();
   private GameObject itemToAdd;
   private GameObject whatSlotToEquip;
+
+  public GameObject pickupAlert;
+  public Text pickupName; 
+  public Image pickupImage;
 
   private void Awake()
   {
@@ -57,6 +63,18 @@ public class InventorySystem : MonoBehaviour
     itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
     itemToAdd.transform.SetParent(whatSlotToEquip.transform);
     itemList.Add(itemName);
+
+    TriggerPickupPopUp(itemName, itemToAdd.GetComponent<Image>().sprite);
+
+    RecalculateList();
+    CraftingSystem.Instance.RefreshNeededItems();
+  }
+
+  private void TriggerPickupPopUp(string itemName, Sprite itemSprite)
+  {
+    pickupAlert.SetActive(true);
+    pickupName.text = itemName;
+    pickupImage.sprite = itemSprite;
   }
 
   private GameObject FindNextEmptySlot()
@@ -89,11 +107,14 @@ public class InventorySystem : MonoBehaviour
       {
         if (slotList[i].transform.GetChild(0).name == nameToRemove + "(Clone)" && counter != 0)
         {
-          Destroy(slotList[i].transform.GetChild(0).gameObject);
+          DestroyImmediate(slotList[i].transform.GetChild(0).gameObject);
           counter--;
         }
       }
     }
+
+    RecalculateList();
+    CraftingSystem.Instance.RefreshNeededItems();
   }
 
   public void RecalculateList()

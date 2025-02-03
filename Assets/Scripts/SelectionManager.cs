@@ -10,8 +10,10 @@ public class SelectionManager : MonoBehaviour
   public bool onTarget;
   public bool borrar;
 
-
   public GameObject selectedObject;
+
+  public Image centerDotImage;
+  public Image handIcon;
 
   private void Awake()
   {
@@ -40,17 +42,30 @@ public class SelectionManager : MonoBehaviour
         interaction_Info_UI.SetActive(true);
         onTarget = true;
         selectedObject = interactableObject.gameObject;
+
+        if (interactableObject.CompareTag("pickable")) ShowIconView(handIcon);
+        else ShowIconView(centerDotImage);
       }
       else
       {
         interaction_Info_UI.SetActive(false);
         onTarget = false;
+        ShowIconView(centerDotImage);
       }
     }
     else
     {
       interaction_Info_UI.SetActive(false);
       onTarget = false;
+      ShowIconView(centerDotImage);
     }
+  }
+
+  private void ShowIconView(Image icon)
+  {
+    centerDotImage.gameObject.SetActive(false);
+    handIcon.gameObject.SetActive(false);
+
+    icon.gameObject.SetActive(true);
   }
 }

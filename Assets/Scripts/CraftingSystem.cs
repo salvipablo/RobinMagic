@@ -47,15 +47,6 @@ public class CraftingSystem : MonoBehaviour
 
   private void Update()
   {
-    /*
-     * TODO: Refactorizar el codigo algun dia, para que se actualice, cuando se abre el menu de crafting.
-     * Esto asi como esta pienso que genera un consumo de recursos innecesario, porque el menu de crafting
-     * esta cerrado al realizar actividades, entonces no necesitamos actualizar un menu cerrado.
-     * Si solo se hace al momento de abrir el menu de crafting, cuando vayamos a craftear algo ya,
-     * estara actualizado y no consumio recursos en el juego
-     */
-    RefreshNeededItems();
-
     if (Input.GetKeyDown(KeyCode.C) && !isOpen)
     {
       Cursor.lockState = CursorLockMode.None;
@@ -85,16 +76,16 @@ public class CraftingSystem : MonoBehaviour
     if (blueprintToCraft.numOfRequirements > 1) InventorySystem.Instance.RemoveItems(blueprintToCraft.req2, blueprintToCraft.req2Amount);
 
     StartCoroutine(calculate());
-    RefreshNeededItems();
   }
 
   public IEnumerator calculate()
   {
-    yield return new WaitForSeconds(1f);
+    yield return 0;
     InventorySystem.Instance.RecalculateList();
+    RefreshNeededItems();
   }
 
-  private void RefreshNeededItems()
+  public void RefreshNeededItems()
   {
     int stone_count = 0;
     int stick_count = 0;
