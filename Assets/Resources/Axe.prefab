@@ -118,7 +118,10 @@ MonoBehaviour:
   thisName: Axe.
   thisDescription: A Sharp tool.
   thisFunctionality: Used to chop down trees.
-  isConsumable: 1
+  isConsumable: 0
   healthEffect: 10
   caloriesEffect: 0
   hydrationEffect: 0
+  isEquippable: 0
+  isInsideQuickSlot: 0
+  isSelected: 0

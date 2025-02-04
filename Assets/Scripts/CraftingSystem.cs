@@ -50,15 +50,25 @@ public class CraftingSystem : MonoBehaviour
     if (Input.GetKeyDown(KeyCode.C) && !isOpen)
     {
       Cursor.lockState = CursorLockMode.None;
+      Cursor.visible = true;
+
       CraftingScreenUi.SetActive(true);
       isOpen = true;
+
+      SelectionManager.Instance.DisableSelection();
+      SelectionManager.Instance.GetComponent<SelectionManager>().enabled = false; 
     }
     else if (Input.GetKeyDown(KeyCode.C) && isOpen)
     {
       if (!InventorySystem.Instance.isOpen) Cursor.lockState = CursorLockMode.Locked;
+      Cursor.visible = false;
+
       CraftingScreenUi.SetActive(false);
       ToolsScreenUi.SetActive(false);
       isOpen = false;
+
+      SelectionManager.Instance.EnableSelection();
+      SelectionManager.Instance.GetComponent<SelectionManager>().enabled = true;
     }
   }
 

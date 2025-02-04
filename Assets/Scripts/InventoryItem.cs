@@ -24,6 +24,13 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
   public float caloriesEffect;
   public float hydrationEffect;
 
+  // --- Equipping --- //
+  public bool isEquippable;
+  private GameObject itemPendingEquipping;
+  public bool isInsideQuickSlot;
+
+  public bool isSelected;
+
   private void Start()
   {
     itemInfoUI = InventorySystem.Instance.ItemInfoUi;
@@ -32,8 +39,14 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     itemInfoUI_itemFunctionality = itemInfoUI.transform.Find("ItemFunctionality").GetComponent<Text>();
   }
 
+  private void Update()
+  {
+    if (isSelected) gameObject.GetComponent<DragDrop>().enabled = false;
+    else gameObject.GetComponent<DragDrop>().enabled = true;
+  }
+
   // Triggered when the mouse enters into the area of the item that has this script.
-  public void OnPointerEnter( PointerEventData eventData )
+  public void OnPointerEnter(PointerEventData eventData)
   {
     itemInfoUI.SetActive(true);
     itemInfoUI_itemName.text = thisName;
@@ -42,10 +55,10 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
   }
 
   // Triggered when the mouse exits the area of the item that has this script.
-  public void OnPointerExit( PointerEventData eventData ) => itemInfoUI.SetActive(false);
+  public void OnPointerExit(PointerEventData eventData) => itemInfoUI.SetActive(false);
 
   // Triggered when the mouse is clicked over the item that has this script.
-  public void OnPointerDown( PointerEventData eventData )
+  public void OnPointerDown(PointerEventData eventData)
   {
     if (eventData.button == PointerEventData.InputButton.Right)
     {
@@ -55,11 +68,17 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         itemPendingConsumption = gameObject;
         consumingFunction(healthEffect, caloriesEffect, hydrationEffect);
       }
+
+      if (isEquippable && !isInsideQuickSlot && !EquipSystem.Instance.CheckIfFull())
+      {
+        EquipSystem.Instance.AddToQuickSlots(gameObject);
+        isInsideQuickSlot = true;
+      }
     }
   }
 
   // Triggered when the mouse button is released over the item that has this script.
-  public void OnPointerUp( PointerEventData eventData )
+  public void OnPointerUp(PointerEventData eventData)
   {
     if (eventData.button == PointerEventData.InputButton.Right)
     {
@@ -72,7 +91,7 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
   }
 
-  private void consumingFunction( float healthEffect, float caloriesEffect, float hydrationEffect )
+  private void consumingFunction(float healthEffect, float caloriesEffect, float hydrationEffect)
   {
     itemInfoUI.SetActive(false);
     healthEffectCalculation(healthEffect);
@@ -80,8 +99,7 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     hydrationEffectCalculation(hydrationEffect);
   }
 
-
-  private static void healthEffectCalculation( float healthEffect )
+  private static void healthEffectCalculation(float healthEffect)
   {
     // --- Health --- //
     float healthBeforeConsumption = PlayerState.Instance.currentHealth;
@@ -93,7 +111,6 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
       else PlayerState.Instance.setHealth(healthBeforeConsumption + healthEffect);
     }
   }
-
 
   private static void caloriesEffectCalculation(float caloriesEffect)
   {
@@ -107,7 +124,6 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
       else PlayerState.Instance.setCalories(caloriesBeforeConsumption + caloriesEffect);
     }
   }
-
 
   private static void hydrationEffectCalculation(float hydrationEffect)
   {

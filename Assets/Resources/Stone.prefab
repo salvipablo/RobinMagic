@@ -118,7 +118,10 @@ MonoBehaviour:
   thisName: Stone.
   thisDescription: A simple stone.
   thisFunctionality: Used for crafting.
-  isConsumable: 1
+  isConsumable: 0
   healthEffect: 0
   caloriesEffect: 0
   hydrationEffect: 20
+  isEquippable: 0
+  isInsideQuickSlot: 0
+  isSelected: 0
