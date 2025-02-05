@@ -15,6 +15,8 @@ public class SelectionManager : MonoBehaviour
   public Image centerDotImage;
   public Image handIcon;
 
+  public bool handIsVisible;
+
   private void Awake()
   {
     if (Instance != null && Instance != this) Destroy(gameObject);
@@ -43,14 +45,23 @@ public class SelectionManager : MonoBehaviour
         onTarget = true;
         selectedObject = interactableObject.gameObject;
 
-        if (interactableObject.CompareTag("pickable")) ShowIconView(handIcon);
-        else ShowIconView(centerDotImage);
+        if (interactableObject.CompareTag("pickable"))
+        {
+          ShowIconView(handIcon);
+          handIsVisible = true;
+        }
+        else
+        {
+          ShowIconView(centerDotImage);
+          handIsVisible = false;
+        }
       }
       else
       {
         interaction_Info_UI.SetActive(false);
         onTarget = false;
         ShowIconView(centerDotImage);
+        handIsVisible = false;
       }
     }
     else
@@ -58,6 +69,7 @@ public class SelectionManager : MonoBehaviour
       interaction_Info_UI.SetActive(false);
       onTarget = false;
       ShowIconView(centerDotImage);
+      handIsVisible = false;
     }
   }
 
