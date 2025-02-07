@@ -8,7 +8,7 @@ public class InteractableObject : MonoBehaviour
 
   // Programacion mia para no intentar almacenar objetos no almacenables, como los arboles, porque se genera error.
   // Podria ser que se arregle mas adelante en el tutorial.
-  private string[] storableObjects = { "Stone", "Wood", "Stick" };
+  private string[] storableObjects = { "Stone", "Wood", "Stick", "Log" };
 
   private void Update()
   {

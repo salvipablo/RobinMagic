@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +8,7 @@ public class HydratationBar : MonoBehaviour
 
   private float currentHydratation, maxHydratation;
 
-  void Awake()
-  {
-    slider = GetComponent<Slider>();
-  }
-
+  void Awake() => slider = GetComponent<Slider>();
   void Update()
   {
     currentHydratation = PlayerState.Instance.currentHydrationPercent;
