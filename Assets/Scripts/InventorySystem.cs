@@ -70,6 +70,8 @@ public class InventorySystem : MonoBehaviour
 
   public void AddToInventory(string itemName)
   {
+    SoundManager.Instance.PlaySound(SoundManager.Instance.pickupItemSound);
+
     whatSlotToEquip = FindNextEmptySlot();
     itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
     itemToAdd.transform.SetParent(whatSlotToEquip.transform);
@@ -100,11 +102,11 @@ public class InventorySystem : MonoBehaviour
     return new GameObject();
   }
 
-  public bool CheckFull()
+  public bool CheckSlotsAvailable( int emptyMeeded)
   {
-    int counter = 0;
-    foreach(GameObject slot in slotList) if (slot.transform.childCount > 0) counter++;
-    if (counter == 21) return true;
+    int emptySlots = 0;
+    foreach(GameObject slot in slotList) if (slot.transform.childCount <= 0) emptySlots++;
+    if (emptySlots >= emptyMeeded) return true;
     return false;
   }
 

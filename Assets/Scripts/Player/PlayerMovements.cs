@@ -14,9 +14,12 @@ public class PlayerMovements : MonoBehaviour
   public float groundDistance = 0.4f;
   public LayerMask groundMask;
 
-  Vector3 velocity;
+  private Vector3 velocity;
 
-  bool isGrounded;
+  private bool isGrounded;
+
+  private Vector3 lastPosition = new Vector3(0, 0, 0);
+  public bool isMoving;
 
   void Update()
   {
@@ -39,5 +42,17 @@ public class PlayerMovements : MonoBehaviour
     velocity.y += gravity * Time.deltaTime;
 
     controller.Move(velocity * Time.deltaTime);
+
+    if (lastPosition != gameObject.transform.position && isGrounded)
+    {
+      isMoving = true;
+      SoundManager.Instance.PlaySound(SoundManager.Instance.grassWalkSound);
+    } 
+    else
+    {
+      isMoving = false;
+      SoundManager.Instance.grassWalkSound.Stop();
+    }
+    lastPosition = gameObject.transform.position;
   }
 }

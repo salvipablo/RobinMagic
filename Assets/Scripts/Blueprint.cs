@@ -8,10 +8,12 @@ public class Blueprint
   public int req1Amount;
   public int req2Amount;
   public int numOfRequirements;
+  public int numberOfItemToProduce;
 
-  public Blueprint(string itemName, string req1, string req2, int req1Amount, int req2Amount, int numOfRequirements)
+  public Blueprint(string itemName, int producedItems, string req1, string req2, int req1Amount, int req2Amount, int numOfRequirements)
   {
     this.itemName = itemName;
+    this.numberOfItemToProduce = producedItems;
     this.req1 = req1;
     this.req2 = req2;
     this.req1Amount = req1Amount;
