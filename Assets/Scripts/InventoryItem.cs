@@ -31,6 +31,9 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
   public bool isSelected;
 
+  public bool isUseable;
+  public GameObject itemPendingToBeUsed;
+
   private void Start()
   {
     itemInfoUI = InventorySystem.Instance.ItemInfoUi;
@@ -74,6 +77,13 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         EquipSystem.Instance.AddToQuickSlots(gameObject);
         isInsideQuickSlot = true;
       }
+
+      if (isUseable)
+      {
+        itemPendingToBeUsed = gameObject;
+
+        UseItem();
+      }
     }
   }
 
@@ -83,6 +93,13 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     if (eventData.button == PointerEventData.InputButton.Right)
     {
       if (isConsumable && itemPendingConsumption == gameObject)
+      {
+        DestroyImmediate(gameObject);
+        InventorySystem.Instance.RecalculateList();
+        CraftingSystem.Instance.RefreshNeededItems();
+      }
+
+      if (isUseable && itemPendingToBeUsed == gameObject)
       {
         DestroyImmediate(gameObject);
         InventorySystem.Instance.RecalculateList();
@@ -135,6 +152,45 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
       if ((hydrationBeforeConsumption + hydrationEffect) > maxHydration) PlayerState.Instance.setHydration(maxHydration);
       else PlayerState.Instance.setHydration(hydrationBeforeConsumption + hydrationEffect);
+    }
+  }
+
+  private void UseItem()
+  {
+    itemInfoUI.SetActive(false);
+
+    InventorySystem.Instance.isOpen = false;
+    InventorySystem.Instance.inventoryScreenUI.SetActive(false);
+
+    CraftingSystem.Instance.isOpen = false;
+    CraftingSystem.Instance.CloseCraftingScreen();
+
+    Cursor.lockState = CursorLockMode.Locked;
+    Cursor.visible = false;
+
+    SelectionManager.Instance.EnableSelection();
+    SelectionManager.Instance.enabled = true;
+
+    switch (gameObject.name)
+    {
+      case "Foundation(Clone)":
+        ConstructionManager.Instance.ActivateConstructionPlacement("FoundationModel");
+        break;
+
+      case "Foundation":
+        ConstructionManager.Instance.ActivateConstructionPlacement("FoundationModel");
+        break;
+
+      case "Wall(Clone)":
+        ConstructionManager.Instance.ActivateConstructionPlacement("Wall");
+        break;
+
+      case "Wall":
+        ConstructionManager.Instance.ActivateConstructionPlacement("Wall");
+        break;
+
+      default:
+        break;
     }
   }
 }
