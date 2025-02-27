@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,72 +30,32 @@ public class Constructable : MonoBehaviour
     }
 
   }
+
   void Update()
   {
-    if (isGrounded && isOverlappingItems == false)
-    {
-      isValidToBeBuilt = true;
-    }
-    else
-    {
-      isValidToBeBuilt = false;
-    }
+    if (isGrounded && isOverlappingItems == false) isValidToBeBuilt = true;
+    else isValidToBeBuilt = false;
   }
 
   private void OnTriggerEnter( Collider other )
   {
-    if (other.CompareTag("Ground") && gameObject.CompareTag("activeConstructable"))
-    {
-      isGrounded = true;
-    }
-
-    if (other.CompareTag("Tree") || other.CompareTag("pickable") && gameObject.CompareTag("activeConstructable"))
-    {
-
-      isOverlappingItems = true;
-    }
-
-    if (other.gameObject.CompareTag("ghost") && gameObject.CompareTag("activeConstructable"))
-    {
-      detectedGhostMemeber = true;
-    }
+    if (other.CompareTag("Ground") && gameObject.CompareTag("activeConstructable")) isGrounded = true;
+    if (other.CompareTag("Tree") || other.CompareTag("pickable") && gameObject.CompareTag("activeConstructable")) isOverlappingItems = true;
+    if (other.gameObject.CompareTag("Ghost") && gameObject.CompareTag("activeConstructable")) detectedGhostMemeber = true;
   }
 
   private void OnTriggerExit( Collider other )
   {
-    if (other.CompareTag("Ground") && gameObject.CompareTag("activeConstructable"))
-    {
-      isGrounded = false;
-    }
-
-    if (other.CompareTag("Tree") || other.CompareTag("pickable") && gameObject.CompareTag("activeConstructable"))
-    {
-      isOverlappingItems = false;
-    }
-
-    if (other.gameObject.CompareTag("ghost") && gameObject.CompareTag("activeConstructable"))
-    {
-      detectedGhostMemeber = false;
-    }
+    if (other.CompareTag("Ground") && gameObject.CompareTag("activeConstructable")) isGrounded = false;
+    if (other.CompareTag("Tree") || other.CompareTag("pickable") && gameObject.CompareTag("activeConstructable")) isOverlappingItems = false;
+    if (other.gameObject.CompareTag("ghost") && gameObject.CompareTag("activeConstructable")) detectedGhostMemeber = false;
   }
 
-  public void SetInvalidColor()
-  {
-    if (mRenderer != null)
-    {
-      mRenderer.material = redMaterial;
-    }
-  }
+  public void SetInvalidColor() { if (mRenderer != null) mRenderer.material = redMaterial; }
 
-  public void SetValidColor()
-  {
-    mRenderer.material = greenMaterial;
-  }
+  public void SetValidColor() => mRenderer.material = greenMaterial;
 
-  public void SetDefaultColor()
-  {
-    mRenderer.material = defaultMaterial;
-  }
+  public void SetDefaultColor() => mRenderer.material = defaultMaterial;
 
   public void ExtractGhostMembers()
   {
