@@ -4,8 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class EquipableItem : MonoBehaviour
 {
+  #region Properties
   public Animator animator;
+  #endregion
 
+  #region Methods
   private void Start()
   {
     animator = GetComponent<Animator>();
@@ -13,8 +16,8 @@ public class EquipableItem : MonoBehaviour
 
   private void Update()
   {
-    if (Input.GetMouseButtonDown(0) && !InventorySystem.Instance.isOpen && 
-          !CraftingSystem.Instance.isOpen && !SelectionManager.Instance.handIsVisible)
+    if (Input.GetMouseButtonDown(0) && !InventorySystem.Instance.isOpen && !CraftingSystem.Instance.isOpen &&
+        !SelectionManager.Instance.handIsVisible && !ConstructionManager.Instance.inConstructionMode)
     {
       StartCoroutine(SwingSoundDelay());
       animator.SetTrigger("Hit");
@@ -36,4 +39,5 @@ public class EquipableItem : MonoBehaviour
     yield return new WaitForSeconds(0.3f);
     SoundManager.Instance.PlaySound(SoundManager.Instance.toolSwingSound);
   }
+  #endregion
 }

@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Device;
 using UnityEngine.UI;
 
 public class CraftingSystem : MonoBehaviour
 {
+  #region Properties
   public static CraftingSystem Instance { get; set; }
 
   public GameObject CraftingScreenUi;
@@ -28,7 +27,9 @@ public class CraftingSystem : MonoBehaviour
   public Blueprint AxeBLP = new Blueprint("Axe", 1, "Stone", "Stick", 3, 3, 2);
   public Blueprint PlankBLP = new Blueprint("Plank", 2, "Log", "-", 1, 0, 1);
   public Blueprint FoundationBLP = new Blueprint("Foundation", 1, "Plank", "-", 4, 0, 1);
+  #endregion
 
+  #region Methods
   private void Awake()
   {
     if (Instance != null && Instance != this) Destroy(gameObject);
@@ -90,7 +91,7 @@ public class CraftingSystem : MonoBehaviour
 
   private void Update()
   {
-    if (Input.GetKeyDown(KeyCode.C) && !isOpen)
+    if (Input.GetKeyDown(KeyCode.C) && !isOpen && !ConstructionManager.Instance.inConstructionMode)
     {
       Cursor.lockState = CursorLockMode.None;
       Cursor.visible = true;
@@ -113,7 +114,7 @@ public class CraftingSystem : MonoBehaviour
       SelectionManager.Instance.GetComponent<SelectionManager>().enabled = true;
     }
   }
-
+  
   public void CloseCraftingScreen()
   {
     CraftingScreenUi.SetActive(false);
@@ -198,4 +199,5 @@ public class CraftingSystem : MonoBehaviour
     if (plank_count >= 4 && InventorySystem.Instance.CheckSlotsAvailable(1)) craftFoundationButtton.gameObject.SetActive(true);
     else craftFoundationButtton.gameObject.SetActive(false);
   }
+  #endregion
 }

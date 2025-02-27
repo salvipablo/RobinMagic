@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
+  #region Properties
   public static InventorySystem Instance { get; set; }
   public GameObject inventoryScreenUI;
   public bool isOpen;
@@ -17,7 +18,9 @@ public class InventorySystem : MonoBehaviour
   public GameObject pickupAlert;
   public Text pickupName; 
   public Image pickupImage;
+  #endregion
 
+  #region Methods
   private void Awake()
   {
     if (Instance != null && Instance != this) Destroy(gameObject);
@@ -33,7 +36,7 @@ public class InventorySystem : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.I) && !isOpen)
+    if (Input.GetKeyDown(KeyCode.I) && !isOpen && !ConstructionManager.Instance.inConstructionMode)
     {
       Cursor.lockState = CursorLockMode.None;
       Cursor.visible = true;
@@ -143,4 +146,5 @@ public class InventorySystem : MonoBehaviour
       }
     }
   }
+  #endregion
 }

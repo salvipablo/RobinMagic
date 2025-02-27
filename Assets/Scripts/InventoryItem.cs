@@ -32,7 +32,6 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
   public bool isSelected;
 
   public bool isUseable;
-  public GameObject itemPendingToBeUsed;
 
   private void Start()
   {
@@ -80,8 +79,8 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
       if (isUseable)
       {
-        itemPendingToBeUsed = gameObject;
-
+        ConstructionManager.Instance.itemToBeDestroyed = gameObject;
+        gameObject.SetActive(false);
         UseItem();
       }
     }
@@ -93,13 +92,6 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     if (eventData.button == PointerEventData.InputButton.Right)
     {
       if (isConsumable && itemPendingConsumption == gameObject)
-      {
-        DestroyImmediate(gameObject);
-        InventorySystem.Instance.RecalculateList();
-        CraftingSystem.Instance.RefreshNeededItems();
-      }
-
-      if (isUseable && itemPendingToBeUsed == gameObject)
       {
         DestroyImmediate(gameObject);
         InventorySystem.Instance.RecalculateList();

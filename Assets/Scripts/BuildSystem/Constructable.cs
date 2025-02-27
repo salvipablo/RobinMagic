@@ -48,7 +48,7 @@ public class Constructable : MonoBehaviour
   {
     if (other.CompareTag("Ground") && gameObject.CompareTag("activeConstructable")) isGrounded = false;
     if (other.CompareTag("Tree") || other.CompareTag("pickable") && gameObject.CompareTag("activeConstructable")) isOverlappingItems = false;
-    if (other.gameObject.CompareTag("ghost") && gameObject.CompareTag("activeConstructable")) detectedGhostMemeber = false;
+    if (other.gameObject.CompareTag("Ghost") && gameObject.CompareTag("activeConstructable")) detectedGhostMemeber = false;
   }
 
   public void SetInvalidColor() { if (mRenderer != null) mRenderer.material = redMaterial; }
@@ -62,7 +62,7 @@ public class Constructable : MonoBehaviour
     foreach (GameObject item in ghostList)
     {
       item.transform.SetParent(transform.parent, true);
-      //  item.gameObject.GetComponent<GhostItem>().solidCollider.enabled = false;
+      item.gameObject.GetComponent<GhostItem>().solidCollider.enabled = false;
       item.gameObject.GetComponent<GhostItem>().isPlaced = true;
     }
   }

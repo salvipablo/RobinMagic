@@ -24,6 +24,8 @@ public class ConstructionManager : MonoBehaviour
   // so the manager can monitor them for various operations
   public List<GameObject> allGhostsInExistence = new List<GameObject>();
 
+  public GameObject itemToBeDestroyed;
+
   private void Awake()
   {
     if (Instance != null && Instance != this) Destroy(gameObject);
@@ -48,20 +50,14 @@ public class ConstructionManager : MonoBehaviour
     inConstructionMode = true;
   }
 
-  private void GetAllGhosts( GameObject itemToBeConstructed )
+  private void GetAllGhosts(GameObject itemToBeConstructed)
   {
     List<GameObject> ghostlist = itemToBeConstructed.gameObject.GetComponent<Constructable>().ghostList;
-
-    foreach (GameObject ghost in ghostlist)
-    {
-      Debug.Log(ghost);
-      allGhostsInExistence.Add(ghost);
-    }
+    foreach (GameObject ghost in ghostlist) allGhostsInExistence.Add(ghost);
   }
 
   private void PerformGhostDeletionScan()
   {
-
     foreach (GameObject ghost in allGhostsInExistence)
     {
       if (ghost != null)
@@ -82,13 +78,9 @@ public class ConstructionManager : MonoBehaviour
                   ghostX.GetComponent<GhostItem>().hasSamePosition = true;
                   break;
                 }
-
               }
-
             }
-
           }
-
         }
       }
     }
@@ -97,12 +89,8 @@ public class ConstructionManager : MonoBehaviour
     {
       if (ghost != null)
       {
-        if (ghost.GetComponent<GhostItem>().hasSamePosition)
-        {
-          DestroyImmediate(ghost);
-        }
+        if (ghost.GetComponent<GhostItem>().hasSamePosition) DestroyImmediate(ghost);
       }
-
     }
   }
 
@@ -121,7 +109,6 @@ public class ConstructionManager : MonoBehaviour
 
   private float ZPositionToAccurateFloat( GameObject ghost )
   {
-
     if (ghost != null)
     {
       // Turning the position to a 2 decimal rounded float
@@ -129,14 +116,12 @@ public class ConstructionManager : MonoBehaviour
       float pos = targetPosition.z;
       float zFloat = Mathf.Round(pos * 100f) / 100f;
       return zFloat;
-
     }
     return 0;
   }
 
   private void Update()
   {
-
     if (itemToBeConstructed != null && inConstructionMode)
     {
       if (CheckValidConstructionPosition())
@@ -150,13 +135,12 @@ public class ConstructionManager : MonoBehaviour
         itemToBeConstructed.GetComponent<Constructable>().SetInvalidColor();
       }
 
-
       Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       RaycastHit hit;
       if (Physics.Raycast(ray, out hit))
       {
         var selectionTransform = hit.transform;
-        if (selectionTransform.gameObject.CompareTag("ghost"))
+        if (selectionTransform.gameObject.CompareTag("Ghost"))
         {
           itemToBeConstructed.SetActive(false);
           selectingAGhost = true;
@@ -167,35 +151,39 @@ public class ConstructionManager : MonoBehaviour
           itemToBeConstructed.SetActive(true);
           selectingAGhost = false;
         }
-
       }
     }
 
     // Left Mouse Click to Place item
     if (Input.GetMouseButtonDown(0) && inConstructionMode)
     {
-      if (isValidPlacement && selectedGhost == false) // We don't want the freestyle to be triggered when we select a ghost.
+      // We don't want the freestyle to be triggered when we select a ghost.
+      if (isValidPlacement && selectedGhost == false)
       {
         PlaceItemFreeStyle();
+        DestroyItem(itemToBeDestroyed);
       }
-
       if (selectingAGhost)
       {
         PlaceItemInGhostPosition(selectedGhost);
+        DestroyItem(itemToBeDestroyed);
       }
     }
-    // Right Mouse Click to Cancel                      //TODO - don't destroy the ui item until you actually placed it.
-    if (Input.GetMouseButtonDown(0) && isValidPlacement)
-    {     // Left Mouse Button
 
-
-
+    // Right Mouse Click to Cancel
+    //TODO - don't destroy the ui item until you actually placed it.
+    if (Input.GetKeyDown(KeyCode.X) && isValidPlacement)  // Left Mouse Button
+    {
+      itemToBeDestroyed.SetActive(true);
+      itemToBeDestroyed = null;
+      DestroyItem(itemToBeConstructed);
+      itemToBeConstructed = null;
+      inConstructionMode = false;
     }
   }
 
-  private void PlaceItemInGhostPosition( GameObject copyOfGhost )
+  private void PlaceItemInGhostPosition(GameObject copyOfGhost)
   {
-
     Vector3 ghostPosition = copyOfGhost.transform.position;
     Quaternion ghostRotation = copyOfGhost.transform.rotation;
 
@@ -223,10 +211,8 @@ public class ConstructionManager : MonoBehaviour
     PerformGhostDeletionScan();
 
     itemToBeConstructed = null;
-
     inConstructionMode = false;
   }
-
 
   private void PlaceItemFreeStyle()
   {
@@ -247,17 +233,19 @@ public class ConstructionManager : MonoBehaviour
     PerformGhostDeletionScan();
 
     itemToBeConstructed = null;
-
     inConstructionMode = false;
   }
 
   private bool CheckValidConstructionPosition()
   {
-    if (itemToBeConstructed != null)
-    {
-      return itemToBeConstructed.GetComponent<Constructable>().isValidToBeBuilt;
-    }
-
+    if (itemToBeConstructed != null) return itemToBeConstructed.GetComponent<Constructable>().isValidToBeBuilt;
     return false;
+  }
+
+  private void DestroyItem(GameObject item)
+  {
+    DestroyImmediate(item);
+    InventorySystem.Instance.RecalculateList();
+    CraftingSystem.Instance.RefreshNeededItems();
   }
 }

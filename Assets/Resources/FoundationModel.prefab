@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 921702645115296271}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 1795275163921277475}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 3018399360139216022}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 1221943517563285121}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 2370842120983778222}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
@@ -750,8 +750,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6026603434116471983}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10452837, y: 0, z: 0, w: 0.9945219}
-  m_LocalPosition: {x: -8.14, y: 1.5, z: 11}
+  m_LocalRotation: {x: -0.1564345, y: 0, z: 0, w: 0.98768836}
+  m_LocalPosition: {x: 0, y: 0.5, z: 11}
   m_LocalScale: {x: 5, y: 0.5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -764,7 +764,7 @@ Transform:
   - {fileID: 1549527856564170074}
   - {fileID: 813315975662020372}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -12, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -18, y: 0, z: 0}
 --- !u!33 &3560598415638505410
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -953,7 +953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 8718358321912183923}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 6773854948978874632}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
@@ -1241,7 +1241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6566ce306e19a1341b53eabb50c42987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solidCollider: {fileID: 0}
+  solidCollider: {fileID: 1121864698971675161}
   mRenderer: {fileID: 0}
   isPlaced: 0
   hasSamePosition: 0
