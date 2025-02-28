@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GhostItem : MonoBehaviour
 {
+  #region Properties
   public BoxCollider solidCollider; // set manually
 
   public Renderer mRenderer;
@@ -13,7 +14,9 @@ public class GhostItem : MonoBehaviour
 
   // A flag for the deletion algorithm
   public bool hasSamePosition = false;
+  #endregion
 
+  #region Methods
   private void Start()
   {
     mRenderer = GetComponent<Renderer>();
@@ -23,7 +26,7 @@ public class GhostItem : MonoBehaviour
     fullTransparentnMat = ConstructionManager.Instance.ghostFullTransparentMat;
     selectedMaterial = ConstructionManager.Instance.ghostSelectedMat;
 
-    mRenderer.material = semiTransparentMat; 
+    mRenderer.material = fullTransparentnMat; 
     //change to semi if in debug else full
     // We disable the solid box collider - while it is not yet placed
     // (unless we are in construction mode - see update method)
@@ -33,12 +36,18 @@ public class GhostItem : MonoBehaviour
 
   private void Update()
   {
+    if (ConstructionManager.Instance.inConstructionMode)
+    {
+      Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), ConstructionManager.Instance.player.GetComponent<Collider>());
+    }
+
     // We need the solid collider so the ray cast will detect it
     if (ConstructionManager.Instance.inConstructionMode && isPlaced) solidCollider.enabled = true;
     if (!ConstructionManager.Instance.inConstructionMode) solidCollider.enabled = false;
 
     // Triggering the material
-    if (ConstructionManager.Instance.selectedGhost == this.gameObject) mRenderer.material = selectedMaterial;
-    else mRenderer.material = semiTransparentMat; //change to semi if in debug else full
+    if (ConstructionManager.Instance.selectedGhost == gameObject) mRenderer.material = selectedMaterial;
+    else mRenderer.material = fullTransparentnMat; //change to semi if in debug else full
   }
+  #endregion
 }

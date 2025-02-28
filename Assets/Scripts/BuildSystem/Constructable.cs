@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Constructable : MonoBehaviour
 {
+  #region Properties
   // Validation
   public bool isGrounded;
   public bool isOverlappingItems;
@@ -18,7 +19,9 @@ public class Constructable : MonoBehaviour
   public List<GameObject> ghostList = new List<GameObject>();
 
   public BoxCollider solidCollider; // We need to drag this collider manualy into the inspector
+  #endregion
 
+  #region Methods
   private void Start()
   {
     mRenderer = GetComponent<Renderer>();
@@ -66,4 +69,5 @@ public class Constructable : MonoBehaviour
       item.gameObject.GetComponent<GhostItem>().isPlaced = true;
     }
   }
+  #endregion
 }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
+  #region Properties
   // --- Is this item trashable --- //
   public bool isTrashable;
 
@@ -32,7 +33,9 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
   public bool isSelected;
 
   public bool isUseable;
+  #endregion
 
+  #region Methods
   private void Start()
   {
     itemInfoUI = InventorySystem.Instance.ItemInfoUi;
@@ -168,21 +171,18 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
       case "Foundation(Clone)":
         ConstructionManager.Instance.ActivateConstructionPlacement("FoundationModel");
         break;
-
       case "Foundation":
         ConstructionManager.Instance.ActivateConstructionPlacement("FoundationModel");
         break;
-
       case "Wall(Clone)":
-        ConstructionManager.Instance.ActivateConstructionPlacement("Wall");
+        ConstructionManager.Instance.ActivateConstructionPlacement("WallModel");
         break;
-
       case "Wall":
-        ConstructionManager.Instance.ActivateConstructionPlacement("Wall");
+        ConstructionManager.Instance.ActivateConstructionPlacement("WallModel");
         break;
-
       default:
         break;
     }
   }
+  #endregion
 }
