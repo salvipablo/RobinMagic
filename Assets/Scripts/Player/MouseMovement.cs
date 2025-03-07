@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class MouseMovement : MonoBehaviour
 {
+  #region Properties
   public float mouseSensitivity = 100f;
 
   float xRotation = 0f;
   float yRotation = 54f;
-    
+  #endregion
+
+  #region Methods
   void Start()
   {
     Cursor.lockState = CursorLockMode.Locked;
@@ -14,7 +17,7 @@ public class MouseMovement : MonoBehaviour
   
   void Update()
   {
-    if (!InventorySystem.Instance.isOpen && !CraftingSystem.Instance.isOpen)
+    if (!InventorySystem.Instance.isOpen && !CraftingSystem.Instance.isOpen && !MenuManager.Instance.IsMenuOpen)
     {
       float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
       float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -32,4 +35,5 @@ public class MouseMovement : MonoBehaviour
       transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
   }
+  #endregion
 }
