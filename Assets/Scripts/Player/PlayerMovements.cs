@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovements : MonoBehaviour
 {
+  #region Properties
   public CharacterController controller;
 
   public float speed = 12f;
@@ -20,8 +21,15 @@ public class PlayerMovements : MonoBehaviour
 
   private Vector3 lastPosition = new Vector3(0, 0, 0);
   public bool isMoving;
+  #endregion
 
+  #region Methods
   void Update()
+  {
+    if (!DialogSystem.Instance.dialogUIActive) Movement();
+  }
+
+  private void Movement()
   {
     // Checking if we hit ground to reset our falling velocity, otherwise we will fall faster the next time.
     isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -47,7 +55,7 @@ public class PlayerMovements : MonoBehaviour
     {
       isMoving = true;
       SoundManager.Instance.PlaySound(SoundManager.Instance.grassWalkSound);
-    } 
+    }
     else
     {
       isMoving = false;
@@ -55,4 +63,5 @@ public class PlayerMovements : MonoBehaviour
     }
     lastPosition = gameObject.transform.position;
   }
+  #endregion
 }

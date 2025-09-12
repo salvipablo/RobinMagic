@@ -43,6 +43,26 @@ public class SelectionManager : MonoBehaviour
 
       ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
 
+      NPC npc = selectionTransform.GetComponent<NPC>();
+      if (npc && npc.playerInRange)
+      {
+        interaction_text.text = "Talk";
+        interaction_Info_UI.SetActive(true);
+
+        if (Input.GetMouseButtonDown(0) && !npc.isTalkingWithPlayer) npc.StartConversation();
+
+        if (DialogSystem.Instance.dialogUIActive)
+        {
+          interaction_Info_UI.SetActive(false);
+          centerDotImage.gameObject.SetActive(false);
+        }
+      }
+      else
+      {
+        interaction_text.text = "";
+        interaction_Info_UI.SetActive(false);
+      }
+
       if (choppableTree && choppableTree.playerInRange)
       {
         choppableTree.canBeChopped = true;
@@ -79,8 +99,8 @@ public class SelectionManager : MonoBehaviour
       }
       else
       {
-        interaction_Info_UI.SetActive(false);
         onTarget = false;
+        //interaction_Info_UI.SetActive(false);
         ShowIconView(centerDotImage);
         handIsVisible = false;
       }
