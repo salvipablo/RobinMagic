@@ -58,5 +58,7 @@ public class MenuManager : MonoBehaviour
       IsMenuOpen = false;
     }
   }
+
+
   #endregion
 }

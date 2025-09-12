@@ -18,6 +18,8 @@ public class InventorySystem : MonoBehaviour
   public GameObject pickupAlert;
   public Text pickupName; 
   public Image pickupImage;
+
+  public List<string> itemsPickedUp;
   #endregion
 
   #region Methods
@@ -73,7 +75,7 @@ public class InventorySystem : MonoBehaviour
 
   public void AddToInventory(string itemName)
   {
-    SoundManager.Instance.PlaySound(SoundManager.Instance.pickupItemSound);
+    if (SaveManager.Instance.isLoading == false) SoundManager.Instance.PlaySound(SoundManager.Instance.pickupItemSound);
 
     whatSlotToEquip = FindNextEmptySlot();
     itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
