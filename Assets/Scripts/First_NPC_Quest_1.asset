@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a7f5c261f92a6d42aa433d095e7811b, type: 3}
+  m_Name: First_NPC_Quest_1
+  m_EditorClassIdentifier: 
+  initialDialog:
+  - "Hola, \r\nNo esperaba encontrarme con nadie aqu\xED\r\nSoy Melina, vivo en el
+    pueblo cercano"
+  - 'Se supone que debo ayudar a mi padre a conseguir pieles de conejo
+
+    Es un
+    famoso artesano del cuero en nuestro pueblo
+
+'
+  - "Nunca lo dir\xE1, pero s\xE9 que quer\xEDa tener un hijo.\r\nUno que pudiera
+    ayudarlo con el negocio familiar y tomar las riendas alg\xFAn d\xEDa\r\nA veces
+    me siento decepcionada\u2026"
+  - "Vine aqu\xED para demostrar que puedo ayudar.\r\n\xA1Pero no puedo matar a estos
+    conejos!\r\nSon tan esponjosos y adorables.\r\nSoy una in\xFAtil."
+  - "Espera, \xBFquiz\xE1s puedas ayudarme?\r\nNo te preocupes, te pagar\xE9."
+  acceptOption: "Claro, te ayudar\xE9. \r\nPuedo usar mi dinero."
+  acceptAnswer: "\xA1Genial! \r\nSi me traes siete pieles de conejo, ser\xE1 m\xE1s
+    que suficiente.\r\n"
+  declineOption: 'Lo siento, pero estoy apresurado.
+
+    Por el momento no puedo
+    ayudarte.'
+  declineAnswer: "Bueno, vali\xF3 la pena intentarlo. \r\nSi cambias de opini\xF3n,
+    vuelve."
+  comebackAfterDecline: "Entonces, \xBFcambiaste de opini\xF3n?"
+  comebackInProgress: "A\xFAn no es suficiente. \r\nAseg\xFArate de revisar tambi\xE9n
+    la hierba alta."
+  comebackCompleted: "Pobres cosas, como promet\xED, aqu\xED est\xE1 su recompensa."
+  finalWords: Espero que esto haga que mi padre se sienta orgulloso.
+  coinReward: 25
+  rewardItem1: Stone
+  rewardItem2: Stone
+  firstRequirmentItem: Stick
+  firstRequirementAmount: 3
+  secondRequirmentItem: 
+  secondRequirementAmount: 0
