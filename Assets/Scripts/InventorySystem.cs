@@ -75,7 +75,7 @@ public class InventorySystem : MonoBehaviour
 
   public void AddToInventory(string itemName)
   {
-    if (SaveManager.Instance.isLoading == false) SoundManager.Instance.PlaySound(SoundManager.Instance.pickupItemSound);
+    //if (SaveManager.Instance.isLoading == false) SoundManager.Instance.PlaySound(SoundManager.Instance.pickupItemSound);
 
     whatSlotToEquip = FindNextEmptySlot();
     itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
@@ -86,6 +86,8 @@ public class InventorySystem : MonoBehaviour
 
     RecalculateList();
     CraftingSystem.Instance.RefreshNeededItems();
+
+    QuestManager.Instance.RefreshTrackerList();
   }
 
   private void TriggerPickupPopUp(string itemName, Sprite itemSprite)
@@ -133,6 +135,8 @@ public class InventorySystem : MonoBehaviour
 
     RecalculateList();
     CraftingSystem.Instance.RefreshNeededItems();
+
+    QuestManager.Instance.RefreshTrackerList();
   }
 
   public void RecalculateList()
@@ -147,6 +151,13 @@ public class InventorySystem : MonoBehaviour
         itemList.Add(name);
       }
     }
+  }
+
+  public int CheckItemAmount(string name)
+  {
+    int amount = 0;
+    foreach (string item in itemList) if (item == name) amount++;
+    return amount;
   }
   #endregion
 }
