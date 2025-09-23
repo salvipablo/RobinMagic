@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
@@ -99,11 +100,27 @@ public class QuestManager : MonoBehaviour
 
       qRow.coinAmount.text = $"{activeQuest.info.coinReward}";
 
-      //qRow.firstReward.sprite = "";
-      qRow.firstRewardAmount.text = "";
+      if (activeQuest.info.rewardItem1 != "")
+      {
+        qRow.firstReward.sprite = GetSpriteForItem(activeQuest.info.rewardItem1);
+        qRow.firstRewardAmount.text = "";
+      }
+      else
+      {
+        qRow.firstReward.gameObject.SetActive(false);
+        qRow.firstRewardAmount.gameObject.SetActive(false);
+      }
 
-      //qRow.secondReward.sprite = "";
-      qRow.secondRewardAmount.text = "";
+      if (activeQuest.info.rewardItem2 != "")
+      {
+        qRow.secondReward.sprite = GetSpriteForItem(activeQuest.info.rewardItem2);
+        qRow.secondRewardAmount.text = "";
+      }
+      else
+      {
+        qRow.secondReward.gameObject.SetActive(false);
+        qRow.secondRewardAmount.gameObject.SetActive(false);
+      }
     }
 
     foreach (Quest completedQuest in allCompletedQuests)
@@ -121,13 +138,35 @@ public class QuestManager : MonoBehaviour
 
       qRow.coinAmount.text = $"{completedQuest.info.coinReward}";
 
-      //qRow.firstReward.sprite = "";
-      qRow.firstRewardAmount.text = "";
+      if (completedQuest.info.rewardItem1 != "")
+      {
+        qRow.firstReward.sprite = GetSpriteForItem(completedQuest.info.rewardItem1);
+        qRow.firstRewardAmount.text = "";
+      }
+      else
+      {
+        qRow.firstReward.gameObject.SetActive(false);
+        qRow.firstRewardAmount.gameObject.SetActive(false);
+      }
 
-      //qRow.secondReward.sprite = "";
-      qRow.secondRewardAmount.text = "";
+      if (completedQuest.info.rewardItem2 != "")
+      {
+        qRow.secondReward.sprite = GetSpriteForItem(completedQuest.info.rewardItem2);
+        qRow.secondRewardAmount.text = "";
+      }
+      else
+      {
+        qRow.secondReward.gameObject.SetActive(false);
+        qRow.secondRewardAmount.gameObject.SetActive(false);
+      }
     }
 
+  }
+
+  private Sprite GetSpriteForItem(string item)
+  {
+    GameObject itemToGet = Resources.Load<GameObject>(item);
+    return itemToGet.GetComponent<Image>().sprite;
   }
 
   public void TrackQuest(Quest quest)
@@ -159,13 +198,32 @@ public class QuestManager : MonoBehaviour
       if (trackedQuest.info.secondRequirmentItem != "") // if we have 2 requirements
       {
         tRow.questRequierements.text = $"{trackedQuest.info.firstRequirmentItem}" + $"{InventorySystem.Instance.CheckItemAmount(trackedQuest.info.firstRequirmentItem)}/" + $"{trackedQuest.info.firstRequirementAmount}\n" +
-       $"{trackedQuest.info.secondRequirmentItem}" + $"{InventorySystem.Instance.CheckItemAmount(trackedQuest.info.secondRequirmentItem)}/" + $"{trackedQuest.info.secondRequirementAmount}\n";
+       $"{trackedQuest.info.secondRequirmentItem}" + $"{InventorySystem.Instance.CheckItemAmount(trackedQuest.info.secondRequirmentItem)}/" + $"{trackedQuest.info.secondRequirementAmount}";
       }
       else // if we have only one
-      {
+      { 
         tRow.questRequierements.text = $"{trackedQuest.info.firstRequirmentItem} {InventorySystem.Instance.CheckItemAmount(trackedQuest.info.firstRequirmentItem)}/{trackedQuest.info.firstRequirementAmount}";
       }
+
+      if (trackedQuest.info.hasCheckpoints)
+      {
+        string existingText = tRow.questRequierements.text;
+        tRow.questRequierements.text = PrintCheckPoints(trackedQuest, existingText);
+      }
     }
+  }
+
+  private string PrintCheckPoints( Quest trackedQuest, string existingText )
+  {
+    string finalText = existingText;
+
+    foreach (Checkpoint cp in trackedQuest.info.checkpoints)
+    {
+      if (cp.isCompleted) finalText = finalText + "\n" + cp.name + "[ Completed]";
+      else finalText = finalText + "\n" + cp.name;
+    }
+
+    return finalText;
   }
   #endregion
 }

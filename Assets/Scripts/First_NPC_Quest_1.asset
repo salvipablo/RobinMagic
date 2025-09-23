@@ -27,20 +27,32 @@ MonoBehaviour:
   - "Vine aqu\xED para demostrar que puedo ayudar.\r\n\xA1Pero no puedo matar a estos
     conejos!\r\nSon tan esponjosos y adorables.\r\nSoy una in\xFAtil."
   - "Espera, \xBFquiz\xE1s puedas ayudarme?\r\nNo te preocupes, te pagar\xE9."
+  initialDialogClips:
+  - {fileID: 8300000, guid: 7c47b20bb9874304a809dc5580d403ba, type: 3}
+  - {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
+  - {fileID: 8300000, guid: 35cf7766e9e2aa542811e896fde57989, type: 3}
+  - {fileID: 8300000, guid: df7087e4d8a8bb546bc08ce68632903f, type: 3}
+  - {fileID: 8300000, guid: e1e2d06fe0d78194b9c7c8cc88414d0d, type: 3}
   acceptOption: "Claro, te ayudar\xE9. \r\nPuedo usar mi dinero."
   acceptAnswer: "\xA1Genial! \r\nSi me traes siete pieles de conejo, ser\xE1 m\xE1s
     que suficiente.\r\n"
+  acceptAnswerClip: {fileID: 8300000, guid: 7c47b20bb9874304a809dc5580d403ba, type: 3}
   declineOption: 'Lo siento, pero estoy apresurado.
 
     Por el momento no puedo
     ayudarte.'
   declineAnswer: "Bueno, vali\xF3 la pena intentarlo. \r\nSi cambias de opini\xF3n,
     vuelve."
+  declineAnswerClip: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
   comebackAfterDecline: "Entonces, \xBFcambiaste de opini\xF3n?"
+  comebackAfterDeclineClip: {fileID: 8300000, guid: 35cf7766e9e2aa542811e896fde57989, type: 3}
   comebackInProgress: "A\xFAn no es suficiente. \r\nAseg\xFArate de revisar tambi\xE9n
     la hierba alta."
+  comebackInProgressClip: {fileID: 8300000, guid: df7087e4d8a8bb546bc08ce68632903f, type: 3}
   comebackCompleted: "Pobres cosas, como promet\xED, aqu\xED est\xE1 su recompensa."
+  comebackCompletedClip: {fileID: 8300000, guid: e1e2d06fe0d78194b9c7c8cc88414d0d, type: 3}
   finalWords: Espero que esto haga que mi padre se sienta orgulloso.
+  finalWordsClip: {fileID: 8300000, guid: e1e2d06fe0d78194b9c7c8cc88414d0d, type: 3}
   coinReward: 25
   rewardItem1: Stone
   rewardItem2: Stone
@@ -48,3 +60,6 @@ MonoBehaviour:
   firstRequirementAmount: 3
   secondRequirmentItem: 
   secondRequirementAmount: 0
+  hasCheckpoints: 1
+  checkpoints:
+  - {fileID: 11400000, guid: 299709edb335bf147a9aa76232165712, type: 2}

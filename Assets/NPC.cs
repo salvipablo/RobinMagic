@@ -68,6 +68,8 @@ public class NPC : MonoBehaviour
 
         npcDialogText.text = currentActiveQuest.info.comebackAfterDecline;
 
+        SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.comebackAfterDeclineClip);
+
         optionButton1Text.text = currentActiveQuest.info.acceptOption;
         optionButton1.onClick.RemoveAllListeners();
         optionButton1.onClick.AddListener(() =>
@@ -94,6 +96,8 @@ public class NPC : MonoBehaviour
 
           npcDialogText.text = currentActiveQuest.info.comebackCompleted;
 
+          SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.comebackCompletedClip);
+
           optionButton1Text.text = "[Take Award]";
           optionButton1.onClick.RemoveAllListeners();
           optionButton1.onClick.AddListener(() =>
@@ -105,6 +109,9 @@ public class NPC : MonoBehaviour
         {
           DialogSystem.Instance.OpenDialogUI();
           npcDialogText.text = currentActiveQuest.info.comebackInProgress;
+
+          SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.comebackInProgressClip);
+
           optionButton1Text.text = "[Close]";
           optionButton1.onClick.RemoveAllListeners();
           optionButton1.onClick.AddListener(() =>
@@ -120,6 +127,8 @@ public class NPC : MonoBehaviour
         DialogSystem.Instance.OpenDialogUI();
 
         npcDialogText.text = currentActiveQuest.info.finalWords;
+
+        SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.finalWordsClip);
 
         optionButton1Text.text = "[Close]";
         optionButton1.onClick?.RemoveAllListeners();
@@ -164,8 +173,40 @@ public class NPC : MonoBehaviour
 
     foreach (string item in InventorySystem.Instance.itemList) if (item == secondRequiredItem) secondItemCounter++;
 
-    if (firstItemCounter >= firstRequiredAmount && secondItemCounter >= secondRequiredAmount) return true;
+    SetQuestHasCheckpoints(currentActiveQuest);
+
+    bool allCheckPointsCompleted = false;
+
+    if (currentActiveQuest.info.hasCheckpoints)
+    {
+      foreach (Checkpoint cp in currentActiveQuest.info.checkpoints)
+      {
+        if (!cp.isCompleted)
+        {
+          allCheckPointsCompleted = false;
+          break;
+        }
+
+        allCheckPointsCompleted = true;
+      }
+    }
+
+    if (firstItemCounter >= firstRequiredAmount && secondItemCounter >= secondRequiredAmount)
+    {
+      if (currentActiveQuest.info.hasCheckpoints)
+      {
+        if (allCheckPointsCompleted) return true;
+        else return false;
+      }
+      else return true;
+    }
     else return false;
+  }
+
+  private void SetQuestHasCheckpoints(Quest activeQuest)
+  {
+    if (activeQuest.info.checkpoints.Count > 0) activeQuest.info.hasCheckpoints = true;
+    else activeQuest.info.hasCheckpoints = false;
   }
 
   private void StartQuestInitialDialog()
@@ -173,6 +214,9 @@ public class NPC : MonoBehaviour
     DialogSystem.Instance.OpenDialogUI();
 
     npcDialogText.text = currentActiveQuest.info.initialDialog[currentDialog];
+
+    SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.initialDialogClips[currentDialog]);
+
     optionButton1Text.text = "Next";
     optionButton1.onClick.RemoveAllListeners();
     optionButton1.onClick.AddListener(() =>
@@ -189,6 +233,9 @@ public class NPC : MonoBehaviour
     if (currentDialog == currentActiveQuest.info.initialDialog.Count - 1)
     {
       npcDialogText.text = currentActiveQuest.info.initialDialog[currentDialog];
+
+      SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.initialDialogClips[currentDialog]);
+
       currentActiveQuest.initialDialogCompleted = true;
 
       optionButton1Text.text = currentActiveQuest.info.acceptOption;
@@ -209,6 +256,9 @@ public class NPC : MonoBehaviour
     else
     {
       npcDialogText.text = currentActiveQuest.info.initialDialog[currentDialog];
+
+      SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.initialDialogClips[currentDialog]);
+
       optionButton1Text.text = "Next";
       optionButton1.onClick.RemoveAllListeners();
       optionButton1.onClick.AddListener(() =>
@@ -224,6 +274,9 @@ public class NPC : MonoBehaviour
     currentActiveQuest.declined = true;
 
     npcDialogText.text = currentActiveQuest.info.declineAnswer;
+
+    SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.declineAnswerClip);
+
     optionButton1Text.text = "[Close]";
     optionButton1.onClick.RemoveAllListeners();
     optionButton1.onClick.AddListener(() =>
@@ -244,6 +297,9 @@ public class NPC : MonoBehaviour
     if (currentActiveQuest.hasNoRequierements)
     {
       npcDialogText.text = currentActiveQuest.info.comebackCompleted;
+
+      SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.comebackCompletedClip);
+
       optionButton1Text.text = "[Take Reward]";
       optionButton1.onClick.RemoveAllListeners();
       optionButton1.onClick.AddListener(() =>
@@ -254,6 +310,9 @@ public class NPC : MonoBehaviour
     else
     {
       npcDialogText.text = currentActiveQuest.info.acceptAnswer;
+
+      SoundManager.Instance.PlayVoiceOvers(currentActiveQuest.info.acceptAnswerClip);
+
       optionButton1Text.text = "[Close]";
       optionButton1.onClick.RemoveAllListeners();
       optionButton1.onClick.AddListener(() =>

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+  #region Properties
   public static SoundManager Instance { get; set; }
 
   public AudioSource dropItemSound;
@@ -13,6 +14,10 @@ public class SoundManager : MonoBehaviour
 
   public AudioSource startingZoneBGMusic;
 
+  public AudioSource voiceovers;
+  #endregion
+
+  #region Methods
   private void Awake()
   {
     if (Instance != null && Instance != this) Destroy(gameObject);
@@ -20,4 +25,17 @@ public class SoundManager : MonoBehaviour
   }
 
   public void PlaySound(AudioSource soundToPlay) { if (!soundToPlay.isPlaying) soundToPlay.Play(); }
+
+  public void PlayVoiceOvers(AudioClip audioClip)
+  {
+    voiceovers.clip = audioClip;
+
+    if (voiceovers.isPlaying) voiceovers.Play();
+    else
+    {
+      voiceovers.Stop();
+      voiceovers.Play();
+    }
+  }
+  #endregion
 }
