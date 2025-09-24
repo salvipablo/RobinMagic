@@ -1,8 +1,11 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SelectionManager : MonoBehaviour
 {
+  #region Properties
   public static SelectionManager Instance {get; set; }
 
   public GameObject interaction_Info_UI;
@@ -19,12 +22,15 @@ public class SelectionManager : MonoBehaviour
 
   public GameObject selectedTree;
   public GameObject chopHolder;
+  #endregion
 
+  #region Methods
   private void Awake()
   {
     if (Instance != null && Instance != this) Destroy(gameObject);
     else Instance = this;
   }
+
   private void Start()
   {
     interaction_text = interaction_Info_UI.GetComponent<Text>();
@@ -40,8 +46,6 @@ public class SelectionManager : MonoBehaviour
     {
       Transform selectionTransform = hit.transform;
       InteractableObject interactableObject = selectionTransform.GetComponent<InteractableObject>();
-
-      ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
 
       NPC npc = selectionTransform.GetComponent<NPC>();
       if (npc && npc.playerInRange)
@@ -63,6 +67,21 @@ public class SelectionManager : MonoBehaviour
         interaction_Info_UI.SetActive(false);
       }
 
+      Animal animal = selectionTransform.GetComponent<Animal>();
+      if (animal && animal.playerInRange)
+      {
+        interaction_text.text = animal.animalName;
+        interaction_Info_UI.SetActive(true);
+
+        if (Input.GetMouseButtonDown(0) && EquipSystem.Instance.IsHoldingWeapon()) StartCoroutine(DealDamageTo(animal, 0.6f, EquipSystem.Instance.GetWeaponDamage()));
+      }
+      else
+      {
+        interaction_text.text = "";
+        interaction_Info_UI.SetActive(false);
+      }
+
+      ChoppableTree choppableTree = selectionTransform.GetComponent<ChoppableTree>();
       if (choppableTree && choppableTree.playerInRange)
       {
         choppableTree.canBeChopped = true;
@@ -114,6 +133,13 @@ public class SelectionManager : MonoBehaviour
     }
   }
 
+  private IEnumerator DealDamageTo(Animal animal, float delay, int damage)
+  {
+    yield return new WaitForSeconds(delay);
+
+    animal.TakeDamage(damage);
+  }
+
   private void ShowIconView(Image icon)
   {
     centerDotImage.gameObject.SetActive(false);
@@ -136,4 +162,5 @@ public class SelectionManager : MonoBehaviour
     centerDotImage.enabled = true;
     interaction_Info_UI.SetActive(true);
   }
+  #endregion
 }

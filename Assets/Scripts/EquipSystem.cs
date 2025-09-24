@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EquipSystem : MonoBehaviour
 {
+  #region Properties
   public static EquipSystem Instance { get; set; }
 
   public GameObject quickSlotsPanel;
@@ -17,7 +19,9 @@ public class EquipSystem : MonoBehaviour
 
   public GameObject ToolHolder;
   public GameObject SelectedItemModel;
+  #endregion
 
+  #region Methods
   private void Awake()
   {
     if (Instance != null && Instance != this) Destroy(gameObject);
@@ -125,4 +129,21 @@ public class EquipSystem : MonoBehaviour
     if (counter == 7) return true;
     else return false;
   }
+
+  public bool IsHoldingWeapon()
+  {
+    if (selectedItem != null)
+    {
+      if (selectedItem.GetComponent<Weapon>() != null) return true;
+      else return false;
+    }
+    else return false;
+  }
+
+  public int GetWeaponDamage()
+  {
+    if (selectedItem != null) return selectedItem.GetComponent<Weapon>().weaponDamage;
+    else return 0;
+  }
+  #endregion
 }

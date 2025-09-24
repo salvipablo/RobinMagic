@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AI_Movement : MonoBehaviour
 {
+  #region Properties
   Animator animator;
 
   public float moveSpeed = 0.2f;
@@ -20,16 +19,15 @@ public class AI_Movement : MonoBehaviour
   public bool isWalking;
 
   float rabbitRotation = 0;
+  #endregion
 
-  // Start is called before the first frame update
+  #region Methods
   void Start()
   {
     animator = GetComponent<Animator>();
 
-    //So that all the prefabs don't move/stop at the same time
     walkTime = Random.Range(3, 6);
-    waitTime = Random.Range(2, 4);
-
+    waitTime = Random.Range(2, 6);
 
     waitCounter = waitTime;
     walkCounter = walkTime;
@@ -37,7 +35,6 @@ public class AI_Movement : MonoBehaviour
     ChooseDirection();
   }
 
-  // Update is called once per frame
   void Update()
   {
     if (isWalking)
@@ -81,4 +78,5 @@ public class AI_Movement : MonoBehaviour
     isWalking = true;
     walkCounter = walkTime;
   }
+  #endregion
 }
