@@ -30,7 +30,7 @@ public class Animal : MonoBehaviour
 
   [SerializeField] ParticleSystem bloodSplashParticleSystem;
 
-  [SerializeField] GameObject bloodPuddle;
+  public GameObject bloodPuddle;
   #endregion
 
   #region Methods
