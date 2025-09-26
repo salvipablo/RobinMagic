@@ -26,7 +26,7 @@ public class PlayerMovements : MonoBehaviour
   #region Methods
   void Update()
   {
-    if (!DialogSystem.Instance.dialogUIActive) Movement();
+    if (!DialogSystem.Instance.dialogUIActive && !StorageManager.Instance.storageUIOpen) Movement();
   }
 
   private void Movement()
@@ -61,6 +61,7 @@ public class PlayerMovements : MonoBehaviour
       isMoving = false;
       SoundManager.Instance.grassWalkSound.Stop();
     }
+
     lastPosition = gameObject.transform.position;
   }
   #endregion

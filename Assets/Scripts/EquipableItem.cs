@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class EquipableItem : MonoBehaviour
 {
   #region Properties
   public Animator animator;
+
+  public bool swingWait = false;
   #endregion
 
   #region Methods
@@ -17,10 +20,15 @@ public class EquipableItem : MonoBehaviour
   private void Update()
   {
     if (Input.GetMouseButtonDown(0) && !InventorySystem.Instance.isOpen && !CraftingSystem.Instance.isOpen &&
-        !SelectionManager.Instance.handIsVisible && !ConstructionManager.Instance.inConstructionMode)
+        !SelectionManager.Instance.handIsVisible && !swingWait && !ConstructionManager.Instance.inConstructionMode)
     {
+      swingWait = true;
+
       StartCoroutine(SwingSoundDelay());
+
       animator.SetTrigger("Hit");
+
+      StartCoroutine(NewSwingDelay());
     }
   }
 
@@ -38,6 +46,13 @@ public class EquipableItem : MonoBehaviour
   {
     yield return new WaitForSeconds(0.3f);
     SoundManager.Instance.PlaySound(SoundManager.Instance.toolSwingSound);
+    
+  }
+
+  private IEnumerator NewSwingDelay()
+  {
+    yield return new WaitForSeconds(1f);
+    swingWait = false;
   }
   #endregion
 }

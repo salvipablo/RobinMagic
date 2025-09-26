@@ -38,6 +38,81 @@ public class ConstructionManager : MonoBehaviour
     else Instance = this;
   }
 
+  private void Update()
+  {
+    if (inConstructionMode) constructionUI.SetActive(true);
+    else constructionUI.SetActive(false);
+
+    if (itemToBeConstructed != null && inConstructionMode)
+    {
+      if (itemToBeConstructed.name == "FoundationModel")
+      {
+        if (CheckValidConstructionPosition())
+        {
+          isValidPlacement = true;
+          itemToBeConstructed.GetComponent<Constructable>().SetValidColor();
+        }
+        else
+        {
+          isValidPlacement = false;
+          itemToBeConstructed.GetComponent<Constructable>().SetInvalidColor();
+        }
+      }
+
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+      if (Physics.Raycast(ray, out hit))
+      {
+        var selectionTransform = hit.transform;
+        if (selectionTransform.gameObject.CompareTag("Ghost") && itemToBeConstructed.name == "FoundationModel")
+        {
+          itemToBeConstructed.SetActive(false);
+          selectingAGhost = true;
+          selectedGhost = selectionTransform.gameObject;
+        }
+        else if (selectionTransform.gameObject.CompareTag("WallGhost") && itemToBeConstructed.name == "WallModel")
+        {
+          itemToBeConstructed.SetActive(false);
+          selectingAGhost = true;
+          selectedGhost = selectionTransform.gameObject;
+        }
+        else
+        {
+          itemToBeConstructed.SetActive(true);
+          selectedGhost = null;
+          selectingAGhost = false;
+        }
+      }
+    }
+
+    // Left Mouse Click to Place item
+    if (Input.GetMouseButtonDown(0) && inConstructionMode)
+    {
+      // We don't want the freestyle to be triggered when we select a ghost.
+      if (isValidPlacement && selectedGhost == false && itemToBeConstructed.name == "FoundationModel")
+      {
+        PlaceItemFreeStyle();
+        DestroyItem(itemToBeDestroyed);
+      }
+      if (selectingAGhost)
+      {
+        PlaceItemInGhostPosition(selectedGhost);
+        DestroyItem(itemToBeDestroyed);
+      }
+    }
+
+    // Right Mouse Click to Cancel
+    // Don't destroy the ui item until you actually placed it.
+    if (Input.GetKeyDown(KeyCode.X) && inConstructionMode)  // Left Mouse Button
+    {
+      itemToBeDestroyed.SetActive(true);
+      itemToBeDestroyed = null;
+      DestroyItem(itemToBeConstructed);
+      itemToBeConstructed = null;
+      inConstructionMode = false;
+    }
+  }
+
   public void ActivateConstructionPlacement(string itemToConstruct)
   {
     GameObject item = Instantiate(Resources.Load<GameObject>(itemToConstruct));
@@ -124,81 +199,6 @@ public class ConstructionManager : MonoBehaviour
       return zFloat;
     }
     return 0;
-  }
-
-  private void Update()
-  {
-    if (inConstructionMode) constructionUI.SetActive(true);
-    else constructionUI.SetActive(false);
-
-    if (itemToBeConstructed != null && inConstructionMode)
-    {
-      if (itemToBeConstructed.name == "FoundationModel")
-      {
-        if (CheckValidConstructionPosition())
-        {
-          isValidPlacement = true;
-          itemToBeConstructed.GetComponent<Constructable>().SetValidColor();
-        }
-        else
-        {
-          isValidPlacement = false;
-          itemToBeConstructed.GetComponent<Constructable>().SetInvalidColor();
-        }
-      }
-
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit hit;
-      if (Physics.Raycast(ray, out hit))
-      {
-        var selectionTransform = hit.transform;
-        if (selectionTransform.gameObject.CompareTag("Ghost") && itemToBeConstructed.name == "FoundationModel")
-        {
-          itemToBeConstructed.SetActive(false);
-          selectingAGhost = true;
-          selectedGhost = selectionTransform.gameObject;
-        }
-        else if (selectionTransform.gameObject.CompareTag("WallGhost") && itemToBeConstructed.name == "WallModel")
-        {
-          itemToBeConstructed.SetActive(false);
-          selectingAGhost = true;
-          selectedGhost = selectionTransform.gameObject;
-        }
-        else
-        {
-          itemToBeConstructed.SetActive(true);
-          selectedGhost = null;
-          selectingAGhost = false;
-        }
-      }
-    }
-
-    // Left Mouse Click to Place item
-    if (Input.GetMouseButtonDown(0) && inConstructionMode)
-    {
-      // We don't want the freestyle to be triggered when we select a ghost.
-      if (isValidPlacement && selectedGhost == false && itemToBeConstructed.name == "FoundationModel")
-      {
-        PlaceItemFreeStyle();
-        DestroyItem(itemToBeDestroyed);
-      }
-      if (selectingAGhost)
-      {
-        PlaceItemInGhostPosition(selectedGhost);
-        DestroyItem(itemToBeDestroyed);
-      }
-    }
-
-    // Right Mouse Click to Cancel
-    // Don't destroy the ui item until you actually placed it.
-    if (Input.GetKeyDown(KeyCode.X) && inConstructionMode)  // Left Mouse Button
-    {
-      itemToBeDestroyed.SetActive(true);
-      itemToBeDestroyed = null;
-      DestroyItem(itemToBeConstructed);
-      itemToBeConstructed = null;
-      inConstructionMode = false;
-    }
   }
 
   private void PlaceItemInGhostPosition(GameObject copyOfGhost)

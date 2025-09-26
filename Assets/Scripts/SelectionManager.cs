@@ -23,6 +23,8 @@ public class SelectionManager : MonoBehaviour
 
   public GameObject selectedTree;
   public GameObject chopHolder;
+
+  public GameObject selectedStorageBox;
   #endregion
 
   #region Methods
@@ -93,6 +95,21 @@ public class SelectionManager : MonoBehaviour
         handIsVisible = false;
       }
 
+      StorageBox storageBox = selectionTransform.GetComponent<StorageBox>();
+      if (storageBox && storageBox.playerInRange && !PlacementSystem.Instance.inPlacementMode)
+      {
+        interaction_text.text = "Open";
+        interaction_Info_UI.SetActive(true);
+
+        selectedStorageBox = storageBox.gameObject;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+          StorageManager.Instance.OpenBox(storageBox);
+        }
+      }
+      else { if (selectedStorageBox != null) selectedStorageBox = null; }
+
       Animal animal = selectionTransform.GetComponent<Animal>();
       if (animal && animal.playerInRange)
       {
@@ -122,7 +139,8 @@ public class SelectionManager : MonoBehaviour
 
           handIsVisible = false;
 
-          if (Input.GetMouseButtonDown(0) && EquipSystem.Instance.IsHoldingWeapon()) StartCoroutine(DealDamageTo(animal, 0.6f, EquipSystem.Instance.GetWeaponDamage()));
+          if (Input.GetMouseButtonDown(0) && EquipSystem.Instance.IsHoldingWeapon() && !EquipSystem.Instance.IsThereASwingLock())
+              StartCoroutine(DealDamageTo(animal, 0.6f, EquipSystem.Instance.GetWeaponDamage()));
         }
       }
 
@@ -135,7 +153,7 @@ public class SelectionManager : MonoBehaviour
         handIcon.gameObject.SetActive(false);
       }
 
-      if (!npc && !interactableObject && !animal && !choppableTree)
+      if (!npc && !interactableObject && !animal && !choppableTree && !storageBox)
       {
         interaction_text.text = "";
         interaction_Info_UI.SetActive(false);
@@ -153,7 +171,7 @@ public class SelectionManager : MonoBehaviour
       {
         int lootAmount = UnityEngine.Random.Range(loot.amountMin, loot.amountMax + 1);
 
-        if (lootAmount != 0)
+        if (lootAmount > 0)
         {
           LootRecieved lt = new LootRecieved();
           lt.item = loot.item;
