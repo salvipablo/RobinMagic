@@ -1,9 +1,9 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class ChoppableTree : MonoBehaviour
 {
+  #region Properties
   public bool playerInRange;
   public bool canBeChopped;
 
@@ -13,7 +13,11 @@ public class ChoppableTree : MonoBehaviour
   public Animator animator;
 
   public float caloriesSpentChoppingWood = 20;
+  #endregion
 
+  #region Methods
+
+  #region Unity Native Methods
   private void Start()
   {
     treeHealth = treeMaxHealth;
@@ -29,6 +33,11 @@ public class ChoppableTree : MonoBehaviour
     }
   }
 
+  private void OnTriggerEnter(Collider other) { if (other.CompareTag("Player")) playerInRange = true; }
+  private void OnTriggerExit(Collider other) { if (other.CompareTag("Player")) playerInRange = false; }
+  #endregion
+
+  #region Own methods
   public void GetHit()
   {
     animator.SetTrigger("shake");
@@ -52,8 +61,10 @@ public class ChoppableTree : MonoBehaviour
     SelectionManager.Instance.chopHolder.gameObject.SetActive(false);
 
     GameObject brokenTree = Instantiate(Resources.Load<GameObject>("ChoppedTree"), treePosition, Quaternion.Euler(0, 0, 0));
-  }
 
-  private void OnTriggerEnter( Collider other ) { if (other.CompareTag("Player")) playerInRange = true; }
-  private void OnTriggerExit( Collider other ) { if (other.CompareTag("Player")) playerInRange = false; }
+    brokenTree.transform.SetParent(transform.parent.transform.parent.transform.parent);
+  }
+  #endregion
+
+  #endregion
 }

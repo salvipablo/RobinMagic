@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,166 +45,231 @@ public class SaveManager : MonoBehaviour
   }
 
   #region ||------ General section ------||
-    #region ||------ Obtain and Set Info section ------||
-    private PlayerData GetPlayerData()
+
+  #region ||------ Obtain and Set Info section ------||
+  private PlayerData GetPlayerData()
+  {
+    float[] playerStats = new float[3];
+    playerStats[0] = PlayerState.Instance.currentHealth;
+    playerStats[1] = PlayerState.Instance.currentCalories;
+    playerStats[2] = PlayerState.Instance.currentHydrationPercent;
+
+    float[] playerPosAndRot = new float[6];
+    playerPosAndRot[0] = PlayerState.Instance.playerBody.transform.position.x;
+    playerPosAndRot[1] = PlayerState.Instance.playerBody.transform.position.y;
+    playerPosAndRot[2] = PlayerState.Instance.playerBody.transform.position.z;
+
+    playerPosAndRot[3] = PlayerState.Instance.playerBody.transform.rotation.x;
+    playerPosAndRot[4] = PlayerState.Instance.playerBody.transform.rotation.y;
+    playerPosAndRot[5] = PlayerState.Instance.playerBody.transform.rotation.z;
+
+    string[] inventory = InventorySystem.Instance.itemList.ToArray();
+
+    string[] quickSlots = GetQuickSlotsContent();
+
+    return new PlayerData(playerStats, playerPosAndRot, inventory, quickSlots);
+  }
+
+  private string[] GetQuickSlotsContent()
+  {
+    List<string> temp = new List<string>();
+
+    foreach (GameObject slot in EquipSystem.Instance.quickSlotsList)
     {
-      float[] playerStats = new float[3];
-      playerStats[0] = PlayerState.Instance.currentHealth;
-      playerStats[1] = PlayerState.Instance.currentCalories;
-      playerStats[2] = PlayerState.Instance.currentHydrationPercent;
-
-      float[] playerPosAndRot = new float[6];
-      playerPosAndRot[0] = PlayerState.Instance.playerBody.transform.position.x;
-      playerPosAndRot[1] = PlayerState.Instance.playerBody.transform.position.y;
-      playerPosAndRot[2] = PlayerState.Instance.playerBody.transform.position.z;
-
-      playerPosAndRot[3] = PlayerState.Instance.playerBody.transform.rotation.x;
-      playerPosAndRot[4] = PlayerState.Instance.playerBody.transform.rotation.y;
-      playerPosAndRot[5] = PlayerState.Instance.playerBody.transform.rotation.z;
-
-      string[] inventory = InventorySystem.Instance.itemList.ToArray();
-
-      string[] quickSlots = GetQuickSlotsContent();
-
-      return new PlayerData(playerStats, playerPosAndRot, inventory, quickSlots);
-    }
-
-    private string[] GetQuickSlotsContent()
-    {
-      List<string> temp = new List<string>();
-
-      foreach (GameObject slot in EquipSystem.Instance.quickSlotsList)
+      if (slot.transform.childCount != 0)
       {
-        if (slot.transform.childCount != 0)
-        {
-          string name = slot.transform.GetChild(0).name;
-          string str2 = "(Clone)";
-          string cleanName = name.Replace(str2, "");
-          temp.Add(cleanName);
-        }
+        string name = slot.transform.GetChild(0).name;
+        string str2 = "(Clone)";
+        string cleanName = name.Replace(str2, "");
+        temp.Add(cleanName);
       }
-
-      return temp.ToArray();
     }
 
-    private void SetPlayerData( PlayerData playerData )
-    {
-      PlayerState.Instance.currentHealth = playerData.playerStats[0];
-      PlayerState.Instance.currentCalories = playerData.playerStats[1];
-      PlayerState.Instance.currentHydrationPercent = playerData.playerStats[2];
+    return temp.ToArray();
+  }
 
-      Vector3 loadedPosition;
-      loadedPosition.x = playerData.playerPositionAndRotation[0];
-      loadedPosition.y = playerData.playerPositionAndRotation[1];
-      loadedPosition.z = playerData.playerPositionAndRotation[2];
+  private void SetPlayerData( PlayerData playerData )
+  {
+    PlayerState.Instance.currentHealth = playerData.playerStats[0];
+    PlayerState.Instance.currentCalories = playerData.playerStats[1];
+    PlayerState.Instance.currentHydrationPercent = playerData.playerStats[2];
 
-      PlayerState.Instance.playerBody.transform.position = loadedPosition;
+    Vector3 loadedPosition;
+    loadedPosition.x = playerData.playerPositionAndRotation[0];
+    loadedPosition.y = playerData.playerPositionAndRotation[1];
+    loadedPosition.z = playerData.playerPositionAndRotation[2];
 
-      Vector3 loadedRotation;
-      loadedRotation.x = playerData.playerPositionAndRotation[3];
-      loadedRotation.y = playerData.playerPositionAndRotation[4];
-      loadedRotation.z = playerData.playerPositionAndRotation[5];
+    PlayerState.Instance.playerBody.transform.position = loadedPosition;
 
-      PlayerState.Instance.playerBody.transform.rotation = Quaternion.Euler(loadedRotation);
+    Vector3 loadedRotation;
+    loadedRotation.x = playerData.playerPositionAndRotation[3];
+    loadedRotation.y = playerData.playerPositionAndRotation[4];
+    loadedRotation.z = playerData.playerPositionAndRotation[5];
 
-      // Settings the inventory content.
-      foreach (string item in playerData.inventoryContent) InventorySystem.Instance.AddToInventory(item);
+    PlayerState.Instance.playerBody.transform.rotation = Quaternion.Euler(loadedRotation);
+
+    // Settings the inventory content.
+    foreach (string item in playerData.inventoryContent) InventorySystem.Instance.AddToInventory(item);
       
-      // Settings the quickSlots content.
-      foreach (string item in playerData.quickSlotsContent)
+    // Settings the quickSlots content.
+    foreach (string item in playerData.quickSlotsContent)
+    {
+      GameObject availableSlot = EquipSystem.Instance.FindNextEmptySlot();
+      GameObject itemToAdd = Instantiate(Resources.Load<GameObject>(item));
+      itemToAdd.transform.SetParent(availableSlot.transform, false);
+    }
+  }
+
+  private EnvironmentData GetEnvironmentData()
+  {
+    // Items.
+    List<string> itemsPickedUp = InventorySystem.Instance.itemsPickedUp;
+
+    // Trees
+    List<TreeData> treesToSave = new List<TreeData>();
+    foreach (Transform tree in EnvironmentManager.Instance.allTrees.transform)
+    {
+      TreeData td = new TreeData();
+
+      if (tree.CompareTag("Tree")) td.name = "Tree_Parent";
+      else td.name = "Stump";
+
+      td.position = tree.position;
+      td.rotation = new Vector3(tree.rotation.x, tree.rotation.y, tree.rotation.z);
+      treesToSave.Add(td);
+    }
+
+    // Animals.
+    List<string> allAnimals = new List<string>();
+    foreach (Transform animalType in EnvironmentManager.Instance.allAnimals.transform)
+    {
+      foreach (Transform animal in animalType.transform) allAnimals.Add(animal.gameObject.name);
+    }
+
+    // Placeables.
+    List<StorageData> allStorages = new List<StorageData>();
+    foreach (Transform placeable in EnvironmentManager.Instance.allPlaceables.transform)
+    {
+      if (placeable.gameObject.GetComponent<StorageBox>())
       {
-        GameObject availableSlot = EquipSystem.Instance.FindNextEmptySlot();
-        GameObject itemToAdd = Instantiate(Resources.Load<GameObject>(item));
-        itemToAdd.transform.SetParent(availableSlot.transform, false);
+        StorageData sd = new StorageData();
+        sd.items = placeable.gameObject.GetComponent<StorageBox>().items;
+        sd.position = placeable.position;
+        sd.rotation = new Vector3(placeable.rotation.x, placeable.rotation.y, placeable.rotation.z);
+
+        allStorages.Add(sd);
       }
     }
 
-    private EnvironmentData GetEnvironmentData()
+    return new EnvironmentData(itemsPickedUp, treesToSave, allAnimals, allStorages);
+  }
+
+	private void SetEnvironmentData(EnvironmentData environmentData)
+	{
+    // Items.
+		foreach (Transform itemType in EnvironmentManager.Instance.allItems.transform)
     {
-      List<string> itemsPickedUp = InventorySystem.Instance.itemsPickedUp;
-      return new EnvironmentData(itemsPickedUp);
+      foreach (Transform item in itemType.transform) if (environmentData.pickedUpItems.Contains(item.name)) Destroy(item.gameObject);
+    }
+    InventorySystem.Instance.itemsPickedUp = environmentData.pickedUpItems;
+
+    // Trees
+    foreach (Transform tree in EnvironmentManager.Instance.allTrees.transform) Destroy(tree.gameObject);
+    foreach (TreeData tree in environmentData.treeData)
+    {
+      GameObject treePrefab = Instantiate(Resources.Load<GameObject>(tree.name),
+        new Vector3(tree.position.x, tree.position.y, tree.position.z),
+        Quaternion.Euler(tree.rotation.x, tree.rotation.y, tree.rotation.z)
+      );
+
+      treePrefab.transform.SetParent(EnvironmentManager.Instance.allTrees.transform);
     }
 
-		private void SetEnvironmentData( EnvironmentData environmentData )
-		{
-			foreach (Transform itemType in EnvironmentManager.Instance.allItems.transform)
+    // Animals.
+    foreach (Transform animalType in EnvironmentManager.Instance.allAnimals.transform)
+    {
+      foreach (Transform animal in animalType.transform)
       {
-        foreach (Transform item in itemType.transform)
+        if (environmentData.animals.Contains(animal.gameObject.name) == false)
         {
-          if (environmentData.pickedUpItems.Contains(item.name))
-          {
-            Destroy(item.gameObject);
-          }
+          Destroy(animal.gameObject);
         }
       }
-
-      InventorySystem.Instance.itemsPickedUp = environmentData.pickedUpItems;
-		}
-  	#endregion
-
-	  #region ||------ Saving section ------||
-	  public void SaveGame(int slotNumber)
-    {
-      AllGameData allGameData = new AllGameData();
-      allGameData.playerData = GetPlayerData();
-      allGameData.environmentData = GetEnvironmentData();
-      SavingTypeSwitch(allGameData, slotNumber);
     }
 
-    public void SavingTypeSwitch(AllGameData allGameData, int slotNumber)
+    // Placeables.
+    foreach (StorageData storage in environmentData.storage)
     {
-      if (isSavingToJson) SaveGameDataToJsonFile(allGameData, slotNumber);
-      else SaveGameDataToBinaryFile(allGameData, slotNumber);
+      GameObject storageBoxPrefab = Instantiate(Resources.Load<GameObject>("StorageBoxModel"),
+        new Vector3(storage.position.x, storage.position.y, storage.position.z),
+        Quaternion.Euler(storage.rotation.x, storage.rotation.y, storage.rotation.z)
+      );
+
+      storageBoxPrefab.GetComponent<StorageBox>().items = storage.items;
+
+      storageBoxPrefab.transform.SetParent(EnvironmentManager.Instance.allPlaceables.transform);
     }
-    #endregion
+  }
+  #endregion ||------ Obtain and Set Info section ------||
 
-    #region ||------ Loading section ------||
-      public AllGameData LoadingTypeSwitch(int slotNumber)
-      {
-        AllGameData allGameData;
-        if (isSavingToJson) allGameData = LoadGameDataFromJsonFile(slotNumber);
-        else allGameData = LoadGameDataFromBinaryFile(slotNumber);
-        return allGameData;
-      }
+  #region ||------ Saving section ------||
+  public void SaveGame(int slotNumber)
+  {
+    AllGameData allGameData = new AllGameData();
+    allGameData.playerData = GetPlayerData();
+    allGameData.environmentData = GetEnvironmentData();
+    SavingTypeSwitch(allGameData, slotNumber);
+  }
 
-      public void LoadGame(int slotNumber)
-      {
-        // Player Data.
-        SetPlayerData(LoadingTypeSwitch(slotNumber).playerData);
+  public void SavingTypeSwitch(AllGameData allGameData, int slotNumber)
+  {
+    if (isSavingToJson) SaveGameDataToJsonFile(allGameData, slotNumber);
+    else SaveGameDataToBinaryFile(allGameData, slotNumber);
+  }
+  #endregion ||------ Saving section ------||
 
-				// Environment Data
-				SetEnvironmentData(LoadingTypeSwitch(slotNumber).environmentData);
+  #region ||------ Loading section ------||
+  public AllGameData LoadingTypeSwitch(int slotNumber)
+  {
+    AllGameData allGameData;
+    if (isSavingToJson) allGameData = LoadGameDataFromJsonFile(slotNumber);
+    else allGameData = LoadGameDataFromBinaryFile(slotNumber);
+    return allGameData;
+  }
 
-				isLoading = false;
+  public void LoadGame(int slotNumber)
+  {
+    SetPlayerData(LoadingTypeSwitch(slotNumber).playerData);
+		SetEnvironmentData(LoadingTypeSwitch(slotNumber).environmentData);
+		isLoading = false;
+    DisableLoadingScreen();
+	}
 
-        DisableLoadingScreen();
-			}
+	public void StartLoadedGame(int slotNumber)
+  {
+    ActivateLoadingScreen();
+    isLoading = true;
+    SceneManager.LoadScene("GameScene");
+    StartCoroutine(DelayedLoading(slotNumber));
+  }
 
-			public void StartLoadedGame(int slotNumber)
-      {
-        ActivateLoadingScreen();
-        isLoading = true;
-        SceneManager.LoadScene("GameScene");
-        StartCoroutine(DelayedLoading(slotNumber));
-      }
+  private IEnumerator DelayedLoading(int slotNumber)
+  {
+    yield return new WaitForSeconds(1f);
+    LoadGame(slotNumber);
+  }
 
-      private IEnumerator DelayedLoading(int slotNumber)
-      {
-        yield return new WaitForSeconds(1f);
-        LoadGame(slotNumber);
-      }
+  public void ActivateLoadingScreen()
+  {
+    loadingScreen.gameObject.SetActive(true);
+    Cursor.lockState = CursorLockMode.Locked;
+    Cursor.visible = false;
+  }
 
-      public void ActivateLoadingScreen()
-      {
-        loadingScreen.gameObject.SetActive(true);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-      }
+  public void DisableLoadingScreen() => loadingScreen.gameObject.SetActive(false);
+  #endregion ||------ Loading section ------||
 
-      public void DisableLoadingScreen() => loadingScreen.gameObject.SetActive(false);
-
-      #endregion
-  #endregion
+  #endregion ||------ General section ------||
 
   #region ||------ Encryption ------||
   public string EncryptionDecryption(string json)
@@ -320,7 +386,7 @@ public class SaveManager : MonoBehaviour
     }
   }
 
-  public bool IsSlotEmpty( int slotNumber )
+  public bool IsSlotEmpty(int slotNumber)
   {
     if (DoesFileExists(slotNumber)) return false;
     else return true;
