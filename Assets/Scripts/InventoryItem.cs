@@ -194,6 +194,14 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         PlacementSystem.Instance.inventoryItemToDestory = gameObject;
         PlacementSystem.Instance.ActivatePlacementMode("StorageBoxModel");
         break;
+      case "Campfire(Clone)":
+        PlacementSystem.Instance.inventoryItemToDestory = gameObject;
+        PlacementSystem.Instance.ActivatePlacementMode("CampfireModel");
+        break;
+      case "Campfire":
+        PlacementSystem.Instance.inventoryItemToDestory = gameObject;
+        PlacementSystem.Instance.ActivatePlacementMode("CampfireModel");
+        break;
       default:
         break;
     }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovements : MonoBehaviour
@@ -26,7 +24,7 @@ public class PlayerMovements : MonoBehaviour
   #region Methods
   void Update()
   {
-    if (!DialogSystem.Instance.dialogUIActive && !StorageManager.Instance.storageUIOpen) Movement();
+    if (!DialogSystem.Instance.dialogUIActive && !StorageManager.Instance.storageUIOpen && !CampfireUIManager.Instance.isUiOpen) Movement();
   }
 
   private void Movement()

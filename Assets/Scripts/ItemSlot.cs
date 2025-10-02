@@ -32,6 +32,10 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         DragDrop.itemBeingDragged.GetComponent<InventoryItem>().isInsideQuickSlot = true;
         InventorySystem.Instance.RecalculateList();
       }
+
+      if (transform.CompareTag("CampfireSlot")) CampfireUIManager.Instance.FuelAndFoodAreValid();
+
+      if (transform.CompareTag("Slot") && CampfireUIManager.Instance.isUiOpen) CampfireUIManager.Instance.FuelAndFoodAreValid();
     }
   }
 }

@@ -40,26 +40,42 @@ public class InventorySystem : MonoBehaviour
   {
     if (Input.GetKeyDown(KeyCode.I) && !isOpen && !ConstructionManager.Instance.inConstructionMode)
     {
-      Cursor.lockState = CursorLockMode.None;
-      Cursor.visible = true;
-
-      inventoryScreenUI.SetActive(true);
-      isOpen = true;
-
-      SelectionManager.Instance.DisableSelection();
-      SelectionManager.Instance.GetComponent<SelectionManager>().enabled = false;
+      OpenUI();
     }
     else if (Input.GetKeyDown(KeyCode.I) && isOpen)
     {
-      if (!CraftingSystem.Instance.isOpen) Cursor.lockState = CursorLockMode.Locked;
-      Cursor.visible = false;
+      CloseUI();
+    }
+  }
 
-      inventoryScreenUI.SetActive(false);
-      isOpen = false;
+  public void OpenUI()
+  {
+    inventoryScreenUI.SetActive(true);
+
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+
+    SelectionManager.Instance.DisableSelection();
+    SelectionManager.Instance.GetComponent<SelectionManager>().enabled = false;
+
+    isOpen = true;
+  }
+
+  public void CloseUI()
+  {
+    inventoryScreenUI.SetActive(false);
+    
+    if (!CraftingSystem.Instance.isOpen && !StorageManager.Instance.storageUIOpen && !CampfireUIManager.Instance.isUiOpen)
+    {
+      Cursor.lockState = CursorLockMode.Locked;
+
+      Cursor.visible = false;
 
       SelectionManager.Instance.EnableSelection();
       SelectionManager.Instance.GetComponent<SelectionManager>().enabled = true;
     }
+
+    isOpen = false;
   }
 
   private void PopulateSlotList()

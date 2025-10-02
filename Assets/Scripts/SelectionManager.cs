@@ -25,6 +25,7 @@ public class SelectionManager : MonoBehaviour
   public GameObject chopHolder;
 
   public GameObject selectedStorageBox;
+  public GameObject selectedCampfire;
   #endregion
 
   #region Methods
@@ -103,12 +104,22 @@ public class SelectionManager : MonoBehaviour
 
         selectedStorageBox = storageBox.gameObject;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-          StorageManager.Instance.OpenBox(storageBox);
-        }
+        if (Input.GetMouseButtonDown(0)) StorageManager.Instance.OpenBox(storageBox);
       }
       else { if (selectedStorageBox != null) selectedStorageBox = null; }
+
+      Campfire campfire = selectionTransform.GetComponent<Campfire>();
+      if (campfire && campfire.playerInRange && !PlacementSystem.Instance.inPlacementMode)
+      {
+        interaction_text.text = "Interact";
+        interaction_Info_UI.SetActive(true);
+
+        selectedCampfire = campfire.gameObject;
+
+        if (Input.GetMouseButtonDown(0) && !campfire.isCooking) campfire.OpenUI();
+      }
+      else { if (selectedCampfire != null) selectedCampfire = null; }
+
 
       Animal animal = selectionTransform.GetComponent<Animal>();
       if (animal && animal.playerInRange)
@@ -153,7 +164,7 @@ public class SelectionManager : MonoBehaviour
         handIcon.gameObject.SetActive(false);
       }
 
-      if (!npc && !interactableObject && !animal && !choppableTree && !storageBox)
+      if (!npc && !interactableObject && !animal && !choppableTree && !storageBox && !campfire)
       {
         interaction_text.text = "";
         interaction_Info_UI.SetActive(false);
